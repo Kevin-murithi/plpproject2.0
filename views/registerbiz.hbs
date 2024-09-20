@@ -1,0 +1,77 @@
+<div class="formContainer">
+  <form class="authForm" id="businessRegisterForm">
+    <div class="formTitle">
+      Business Registration
+    </div>
+
+    {{!-- <div class="formField">
+        <label for="name">Name</label>
+        <input type="text" placeholder="Full Name" name="name">
+    </div> --}}
+
+    <div class="formField">
+        <label for="name">Business Name</label>
+        <input type="text" placeholder="business Name" name="name" id="name">
+    </div>
+
+    <div class="formField">
+        <label for="email">Email</label>
+        <input type="email" placeholder="Business Email Address" name="email" id="email">
+    </div>
+
+    <div class="formField">
+        <label for="password">Password</label>
+        <input type="password" placeholder="Create Password" name="password" id="password"> 
+    </div>
+
+    {{!-- <div class="formField">
+        <label for="password">Confirm Password</label>
+        <input type="password" placeholder="Confirm Password" name="confirmPassword">
+    </div> --}}
+
+    <button type="submit" class="bizBtn">Register</button>
+  </form>
+</div>
+
+<script>
+ // Handle registration form submission
+document.getElementById('businessRegisterForm').addEventListener('submit', async (e) => {
+    e.preventDefault(); // Prevent default form submission
+
+     // Get form input values
+     const name = document.getElementById('name').value;
+     const password = document.getElementById('password').value;
+     const email = document.getElementById('email').value;
+
+    const data = {
+        name,
+        email,
+        password
+    };
+
+    try {
+        // Send a POST request to the registration endpoint
+        const response = await fetch('/bizregister', {  // Corrected URL path
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+            // Registration successful, redirect to login page
+            alert('Registration successful! Please log in.');
+            window.location.href = '/bizsignIn'; // Correct redirection to login page
+        } else {
+            // Handle failed registration
+            const errorText = await response.text();
+            alert('Registration failed: ' + errorText);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An unexpected error occurred.');
+    }
+});
+
+</script>

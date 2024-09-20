@@ -1,0 +1,439 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+h1, h2 {
+  text-align: center;
+}
+
+a {
+  text-decoration: none;
+}
+
+header {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 2rem;
+  position: fixed;
+}
+@media (max-width: 600px) {
+  header {
+    padding: 1.25rem 0.5rem;
+  }
+}
+header .logo {
+  color: rgb(28, 133, 72);
+  font-size: 32px;
+  font-weight: 700;
+}
+@media (max-width: 780px) {
+  header .logo {
+    font-size: 26px;
+  }
+}
+@media (max-width: 600px) {
+  header .logo {
+    font-size: 24px;
+  }
+}
+header .navbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0;
+}
+header .navbar a {
+  color: rgb(9, 15, 24);
+  text-decoration: none;
+  padding: 14px 20px;
+  font-size: 14px;
+  font-weight: 600;
+}
+header .navbar .loginOpts {
+  border: 2px solid gray;
+  margin-left: 1.5rem;
+  background: transparent;
+  border-radius: 10px;
+  width: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0;
+}
+@media (max-width: 780px) {
+  header .navbar .loginOpts {
+    margin-left: 0.5rem;
+    width: 100px;
+  }
+}
+@media (max-width: 600px) {
+  header .navbar .loginOpts {
+    margin-left: 0.15rem;
+    width: 90px;
+  }
+}
+header .navbar .loginOpts .startHeadLogin {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0;
+  width: 100%;
+  transition: 0.3s ease;
+  padding: 0.35rem 0.75rem;
+}
+header .navbar .loginOpts .startHeadLogin > span:nth-child(1) {
+  font-size: 14px;
+  font-weight: 600;
+  color: black;
+}
+header .navbar .loginOpts .startHeadLogin > span:nth-child(2) .dropDownLogin {
+  width: 20px;
+  transition: 0.3s ease;
+  margin-top: 3px;
+}
+header .navbar .loginOpts .startHeadLogin > span:nth-child(2) .dropDownLogin.rotate {
+  transform: rotateX(180deg);
+}
+header .navbar .loginOpts .startHeadLogin:hover {
+  cursor: pointer;
+  background-color: rgb(235, 230, 230);
+}
+@media (max-width: 780px) {
+  header .navbar .loginOpts .startHeadLogin {
+    padding: 0.35rem 0.7rem;
+  }
+  header .navbar .loginOpts .startHeadLogin > span:nth-child(1) {
+    font-size: 14px;
+  }
+  header .navbar .loginOpts .startHeadLogin > span:nth-child(2) .dropDown {
+    width: 18px;
+  }
+}
+@media (max-width: 600px) {
+  header .navbar .loginOpts .startHeadLogin {
+    padding: 0.35rem 0.7rem;
+  }
+  header .navbar .loginOpts .startHeadLogin > span:nth-child(1) {
+    font-size: 12px;
+  }
+  header .navbar .loginOpts .startHeadLogin > span:nth-child(2) .dropDown {
+    width: 16px;
+  }
+}
+header .navbar .loginOpts .authOptsLogin {
+  display: none;
+}
+header .navbar .loginOpts .authOptsLogin.reveal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0;
+  width: 100%;
+}
+header .navbar .loginOpts .authOptsLogin.reveal .authLink {
+  border-top: 1.8px solid rgb(209, 204, 204);
+  width: 100%;
+  padding: 0.35rem 0.75rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0;
+  transition: 0.3s ease;
+}
+@media (max-width: 600px) {
+  header .navbar .loginOpts .authOptsLogin.reveal .authLink {
+    padding: 0.35rem 0.45rem;
+  }
+}
+header .navbar .loginOpts .authOptsLogin.reveal .authLink span {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgb(85, 83, 83);
+}
+@media (max-width: 780px) {
+  header .navbar .loginOpts .authOptsLogin.reveal .authLink span {
+    font-size: 10px;
+  }
+}
+header .navbar .loginOpts .authOptsLogin.reveal .authLink img {
+  width: 22px;
+}
+@media (max-width: 780px) {
+  header .navbar .loginOpts .authOptsLogin.reveal .authLink img {
+    width: 18px;
+  }
+}
+header .navbar .loginOpts .authOptsLogin.reveal .authLink:hover {
+  background-color: rgb(224, 219, 219);
+}
+header .navbar.active {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: start;
+  flex-wrap: nowrap;
+  gap: 0;
+}
+
+header.activeHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+header.activeHeader .logo {
+  margin-top: 5px;
+}
+
+.indexMain {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0;
+  padding: 6rem 1rem 1rem 1rem;
+}
+.indexMain .welcomeTitle {
+  margin-top: 3rem;
+  font-size: 48px;
+  font-weight: 900;
+  max-width: 600px;
+}
+@media (max-width: 600px) {
+  .indexMain .welcomeTitle {
+    font-size: 30px;
+  }
+}
+@media (max-width: 380px) {
+  .indexMain .welcomeTitle {
+    font-size: 26px;
+  }
+}
+@media (max-width: 330px) {
+  .indexMain .welcomeTitle {
+    font-size: 22px;
+  }
+}
+.indexMain .welcomeText {
+  font-size: 1.15rem;
+  margin-top: 2rem;
+  text-align: center;
+}
+@media (max-width: 600px) {
+  .indexMain .welcomeText {
+    font-size: 14px;
+    margin-top: 1.5rem;
+  }
+}
+@media (max-width: 380px) {
+  .indexMain .welcomeText {
+    font-size: 12px;
+  }
+}
+.indexMain .getStarted {
+  margin-top: 2.5rem;
+  border: 2px solid gray;
+  background: transparent;
+  border-radius: 10px;
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0;
+}
+@media (max-width: 780px) {
+  .indexMain .getStarted {
+    width: 180px;
+  }
+}
+.indexMain .getStarted .startHead {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0;
+  width: 100%;
+  transition: 0.3s ease;
+  padding: 0.65rem 1rem;
+}
+.indexMain .getStarted .startHead > span:nth-child(1) {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: rgb(38, 38, 38);
+}
+.indexMain .getStarted .startHead > span:nth-child(2) .dropDown {
+  width: 24px;
+  transition: 0.3s ease;
+  margin-bottom: -4px;
+}
+.indexMain .getStarted .startHead > span:nth-child(2) .dropDown.flip {
+  transform: rotateX(180deg);
+}
+.indexMain .getStarted .startHead:hover {
+  cursor: pointer;
+  background-color: rgb(235, 230, 230);
+}
+@media (max-width: 780px) {
+  .indexMain .getStarted .startHead {
+    padding: 0.45rem 0.8rem;
+  }
+  .indexMain .getStarted .startHead > span:nth-child(1) {
+    font-size: 1rem;
+  }
+  .indexMain .getStarted .startHead > span:nth-child(2) .dropDown {
+    width: 22px;
+  }
+}
+.indexMain .getStarted .authOpts {
+  display: none;
+}
+.indexMain .getStarted .authOpts.show {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0;
+  width: 100%;
+}
+.indexMain .getStarted .authOpts.show .authLink {
+  border-top: 1.8px solid rgb(209, 204, 204);
+  width: 100%;
+  padding: 0.8rem 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0;
+  transition: 0.3s ease;
+}
+.indexMain .getStarted .authOpts.show .authLink span {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: rgb(85, 83, 83);
+}
+.indexMain .getStarted .authOpts.show .authLink img {
+  width: 24px;
+}
+.indexMain .getStarted .authOpts.show .authLink:hover {
+  background-color: rgb(224, 219, 219);
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0;
+  max-width: 700px;
+  width: 100%;
+  margin: auto;
+  padding-top: 3rem;
+}
+.formContainer .authForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0;
+  width: 100%;
+  padding: 2.5rem 2%;
+  background-color: rgb(227, 233, 233);
+  border-radius: 10px;
+}
+.formContainer .authForm .formTitle {
+  font-size: 1.45rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  opacity: 0.8;
+}
+.formContainer .authForm .formField {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+  gap: 0;
+  width: 90%;
+  margin-bottom: 1.85rem;
+}
+.formContainer .authForm label {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgb(30, 30, 31);
+}
+.formContainer .authForm input {
+  width: 100%;
+  padding: 14px 6px;
+  font-size: 14px;
+  border: 1px solid #9e9d9d;
+  background-color: rgb(240, 247, 247);
+  border-radius: 10px;
+  margin-top: 0.5rem;
+}
+.formContainer .authForm button {
+  padding: 0.75rem 2.5rem;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  margin-top: 1.5rem;
+  transition: 0.3s ease;
+}
+.formContainer .authForm button:hover {
+  cursor: pointer;
+}
+.formContainer .authForm .userBtn {
+  background-color: rgb(25, 211, 108);
+  border: 2px solid gray;
+}
+.formContainer .authForm .userBtn:hover {
+  background-color: rgb(48, 236, 133);
+}
+.formContainer .authForm .bizBtn {
+  background-color: rgb(152, 107, 242);
+  border: 2px solid gray;
+}
+.formContainer .authForm .bizBtn:hover {
+  background-color: rgb(172, 144, 240);
+}
+.formContainer .authForm .adminBtn {
+  background-color: rgb(211, 183, 25);
+  border: 2px solid gray;
+}
+.formContainer .authForm .adminBtn:hover {
+  background-color: rgb(230, 230, 37);
+}
+/*# sourceMappingURL=main.css.map */
