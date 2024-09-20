@@ -22,7 +22,6 @@
     .sideLogo{
       text-align: left;
       width: 100%;
-      color: rgb(160, 243, 211);
       font-size: 32px;
       font-weight: 700;
       padding: 0 1rem;
@@ -33,6 +32,13 @@
       @media(max-width: 600px){
         font-size: 24px;
       }
+    }
+
+    .userLogo{
+      color: rgb(160, 243, 211);
+    }
+    .bizLogo{
+      color: rgb(178, 163, 247);
     }
 
 
@@ -51,6 +57,7 @@
 
         img{
           width: 28px;
+          opacity: .75;
         }
 
         span{
@@ -61,16 +68,34 @@
         }
 
         &:hover{
-          background-color: rgb(63, 62, 62);
-          
-          span{
-            color: rgb(80, 245, 182);
+          img{
+            opacity: 1;
           }
         }
       }
 
       a:last-child {
         margin-top: auto;
+      }
+    }
+
+    .userPages{
+      a:hover{
+        background-color: rgb(63, 62, 62);
+        
+        span{
+          color: rgb(80, 245, 182);
+        }
+      }
+    }
+
+    .bizPages{
+      a:hover{
+        background-color: rgb(63, 62, 62);
+        
+        span{
+          color: rgb(160, 126, 253);
+        }
       }
     }
   }
@@ -99,7 +124,18 @@
           font-weight: 600;
           font-size: 1.15rem;
           margin-left: .55rem;
+        }
+      }
+
+      .userProfileBox{
+        span{
           color: rgb(18, 51, 18);
+        }
+      }
+
+      .bizProfileBox{
+        span{
+          color: rgb(38, 13, 77);
         }
       }
     }

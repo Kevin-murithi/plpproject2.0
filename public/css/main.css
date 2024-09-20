@@ -379,7 +379,6 @@ header.activeHeader .logo {
 .dashContainer .sidebar .sideLogo {
   text-align: left;
   width: 100%;
-  color: rgb(160, 243, 211);
   font-size: 32px;
   font-weight: 700;
   padding: 0 1rem;
@@ -393,6 +392,12 @@ header.activeHeader .logo {
   .dashContainer .sidebar .sideLogo {
     font-size: 24px;
   }
+}
+.dashContainer .sidebar .userLogo {
+  color: rgb(160, 243, 211);
+}
+.dashContainer .sidebar .bizLogo {
+  color: rgb(178, 163, 247);
 }
 .dashContainer .sidebar .pageLinks {
   display: flex;
@@ -419,6 +424,7 @@ header.activeHeader .logo {
 }
 .dashContainer .sidebar .pageLinks a img {
   width: 28px;
+  opacity: 0.75;
 }
 .dashContainer .sidebar .pageLinks a span {
   color: rgb(236, 234, 234);
@@ -426,14 +432,23 @@ header.activeHeader .logo {
   font-weight: 500;
   margin-left: 1rem;
 }
-.dashContainer .sidebar .pageLinks a:hover {
-  background-color: rgb(63, 62, 62);
-}
-.dashContainer .sidebar .pageLinks a:hover span {
-  color: rgb(80, 245, 182);
+.dashContainer .sidebar .pageLinks a:hover img {
+  opacity: 1;
 }
 .dashContainer .sidebar .pageLinks a:last-child {
   margin-top: auto;
+}
+.dashContainer .sidebar .userPages a:hover {
+  background-color: rgb(63, 62, 62);
+}
+.dashContainer .sidebar .userPages a:hover span {
+  color: rgb(80, 245, 182);
+}
+.dashContainer .sidebar .bizPages a:hover {
+  background-color: rgb(63, 62, 62);
+}
+.dashContainer .sidebar .bizPages a:hover span {
+  color: rgb(160, 126, 253);
 }
 .dashContainer .dashBody .dashHead {
   display: flex;
@@ -467,7 +482,12 @@ header.activeHeader .logo {
   font-weight: 600;
   font-size: 1.15rem;
   margin-left: 0.55rem;
+}
+.dashContainer .dashBody .dashHead .userProfileBox span {
   color: rgb(18, 51, 18);
+}
+.dashContainer .dashBody .dashHead .bizProfileBox span {
+  color: rgb(38, 13, 77);
 }
 
 .formContainer {

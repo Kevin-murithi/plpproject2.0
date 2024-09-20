@@ -26,44 +26,58 @@
 </div>
 
 <script>
- // Handle registration form submission
-    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+  // Handle registration form submission
+  document.getElementById('registerForm').addEventListener('submit', async (e) => {
     e.preventDefault(); // Prevent default form submission
 
-     // Get form input values
-     const username = document.getElementById('username').value;
-     const password = document.getElementById('password').value;
-     const email = document.getElementById('email').value;
+    // Get form input values
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const email = document.getElementById('email').value;
 
     const data = {
         username,
         email,
-        password
+        password,
+        latitude: null,  // Placeholder for latitude
+        longitude: null  // Placeholder for longitude
     };
 
-    try {
-        // Send a POST request to the registration endpoint
-        const response = await fetch('/register', {  // Corrected URL path
+    // Try to get the geolocation of the user
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(async (position) => {
+        data.latitude = position.coords.latitude;
+        data.longitude = position.coords.longitude;
+
+        try {
+          const response = await fetch('/register', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+              'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
-        });
+          });
 
-        if (response.ok) {
-            // Registration successful, redirect to login page
+          if (response.ok) {           
             alert('Registration successful! Please log in.');
-            window.location.href = '/signIn'; // Correct redirection to login page
-        } else {
+            console.log(data);
+            window.location.href = '/signIn'; 
+          } else {
             // Handle failed registration
             const errorText = await response.text();
             alert('Registration failed: ' + errorText);
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          alert('An unexpected error occurred.');
         }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('An unexpected error occurred.');
+      }, (error) => {
+        console.error('Geolocation error:', error);
+        alert('Unable to get your location. Please check location settings.');
+      });
+    } 
+    else {
+      alert('Geolocation is not supported by your browser.');
     }
-});
-
+  });
 </script>
