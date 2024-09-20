@@ -1,8 +1,84 @@
+<section class="dashContainer userDash">
+  <section class="sidebar">
+    <div class="sideLogo">
+      Surplus
+    </div>
 
-<h2>Your Dashboard</h2>
-<div id="foodListings">
-  {{foodListings}}
-</div>
+    <div class="pageLinks">
+      <a href="#">
+        <img src="images/home.svg" alt="home">
+        <span>Home</span>
+      </a>
 
-<script src="../js/dashboard.js"></script>
+      <a href="#">
+        <img src="images/donate.svg" alt="home">
+        <span>Donate</span>
+      </a>
 
+      <a href="#">
+        <img src="images/tips.svg" alt="tips">
+        <span>Resources/Tips</span>
+      </a>
+
+      <a href="#">
+        <img src="images/notifications.svg" alt="home">
+        <span>Notifications</span>
+      </a>
+
+      <a href="#">
+        <img src="images/support.svg" alt="home">
+        <span>Support</span>
+      </a>
+
+      <a href="#">
+        <img src="images/leaderboard.svg" alt="home">
+        <span>Leaderboard</span>
+      </a>
+
+      <a href="#">
+        <img src="images/profile.svg" alt="home">
+        <span>Profile</span>
+      </a>
+
+      <a href="#">
+        <img src="images/logout.svg" alt="logout">
+        <span>Logout</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="dashBody">
+    <div class="dashHead">
+      <div class="currentPage">
+        Dashboard
+      </div>
+
+      <div class="profileBox">
+        <img src="images/userProfile.svg" alt="userProfile">
+        <span>John</span>
+      </div>
+    </div>
+  </section>
+</section>
+
+
+{{!-- <div id="foodListings">
+  {{#if foodListings.length}}
+    <ul>
+      {{#each foodListings}}
+        <li>
+          <strong>Item Name:</strong> {{item_name}}<br>
+          <strong>Location:</strong> {{location}}<br>
+          <strong>Category:</strong> {{category}}<br>
+          <strong>Quantity:</strong> {{quantity}}<br>
+          <strong>Expiration Date:</strong> {{expiration_date}}<br>
+          <strong>Pickup Time:</strong> {{pickup_time}}<br>
+          <strong>Pickup Location:</strong> {{pickup_location}}<br>
+          <strong>Special Notes:</strong> {{special_notes}}
+        </li>
+      {{/each}}
+    </ul>
+  {{else}}
+    <p>No food listings available.</p>
+  {{/if}}
+</div> --}}

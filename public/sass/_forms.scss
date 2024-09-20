@@ -17,9 +17,14 @@
   .authForm {
     @include flexbox(column, center, center); 
     width: 100%;
-    padding: 2.5rem 2%;
+    padding: 2.5rem 2rem;
     background-color: rgb(227, 233, 233);
     border-radius: 10px;
+
+    @media(max-width: 600px){
+      width: 95%;
+      padding: 1.5rem 1rem;
+    }
 
     .formTitle {
       font-size: 1.45rem;
@@ -32,6 +37,10 @@
       @include flexbox(column, center, flex-start);
       width: 90%;
       margin-bottom: 1.85rem;
+
+      @media(max-width: 600px){
+        width: 100%;
+      }
     }
 
     label {

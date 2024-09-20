@@ -59,12 +59,22 @@ header .navbar {
   flex-wrap: nowrap;
   gap: 0;
 }
-header .navbar a {
+header .navbar > a {
   color: rgb(9, 15, 24);
   text-decoration: none;
   padding: 14px 20px;
   font-size: 14px;
   font-weight: 600;
+}
+@media (max-width: 600px) {
+  header .navbar > a {
+    margin: 0 -6px;
+  }
+}
+@media (max-width: 330px) {
+  header .navbar > a {
+    margin: 0 -14px;
+  }
 }
 header .navbar .loginOpts {
   border: 2px solid gray;
@@ -121,7 +131,7 @@ header .navbar .loginOpts .startHeadLogin:hover {
 }
 @media (max-width: 780px) {
   header .navbar .loginOpts .startHeadLogin {
-    padding: 0.35rem 0.7rem;
+    padding: 0.25rem 0.7rem;
   }
   header .navbar .loginOpts .startHeadLogin > span:nth-child(1) {
     font-size: 14px;
@@ -132,7 +142,7 @@ header .navbar .loginOpts .startHeadLogin:hover {
 }
 @media (max-width: 600px) {
   header .navbar .loginOpts .startHeadLogin {
-    padding: 0.35rem 0.7rem;
+    padding: 0.2rem 0.55rem;
   }
   header .navbar .loginOpts .startHeadLogin > span:nth-child(1) {
     font-size: 12px;
@@ -349,6 +359,117 @@ header.activeHeader .logo {
   background-color: rgb(224, 219, 219);
 }
 
+.dashContainer {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 0;
+  width: 100%;
+  min-height: 100vh;
+}
+.dashContainer .sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0;
+  background-color: rgb(37, 37, 37);
+  padding: 1.25rem 0;
+}
+.dashContainer .sidebar .sideLogo {
+  text-align: left;
+  width: 100%;
+  color: rgb(160, 243, 211);
+  font-size: 32px;
+  font-weight: 700;
+  padding: 0 1rem;
+}
+@media (max-width: 780px) {
+  .dashContainer .sidebar .sideLogo {
+    font-size: 26px;
+  }
+}
+@media (max-width: 600px) {
+  .dashContainer .sidebar .sideLogo {
+    font-size: 24px;
+  }
+}
+.dashContainer .sidebar .pageLinks {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0;
+  margin-top: 2.5rem;
+  width: 100%;
+  height: 100%;
+}
+.dashContainer .sidebar .pageLinks a {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0;
+  width: 100%;
+  margin-bottom: 0;
+  padding: 1.05rem 1rem;
+  transition: 0.2s ease;
+}
+.dashContainer .sidebar .pageLinks a img {
+  width: 28px;
+}
+.dashContainer .sidebar .pageLinks a span {
+  color: rgb(236, 234, 234);
+  font-size: 1.15rem;
+  font-weight: 500;
+  margin-left: 1rem;
+}
+.dashContainer .sidebar .pageLinks a:hover {
+  background-color: rgb(63, 62, 62);
+}
+.dashContainer .sidebar .pageLinks a:hover span {
+  color: rgb(80, 245, 182);
+}
+.dashContainer .sidebar .pageLinks a:last-child {
+  margin-top: auto;
+}
+.dashContainer .dashBody .dashHead {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0;
+  padding: 1.25rem 0 0.8rem 0;
+  border-bottom: 2px solid rgb(233, 231, 231);
+}
+.dashContainer .dashBody .dashHead .currentPage {
+  padding: 0 1.65rem;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: rgb(53, 50, 50);
+}
+.dashContainer .dashBody .dashHead .profileBox {
+  padding: 0 1.65rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0;
+}
+.dashContainer .dashBody .dashHead .profileBox img {
+  width: 40px;
+}
+.dashContainer .dashBody .dashHead .profileBox span {
+  font-weight: 600;
+  font-size: 1.15rem;
+  margin-left: 0.55rem;
+  color: rgb(18, 51, 18);
+}
+
 .formContainer {
   display: flex;
   flex-direction: row;
@@ -369,9 +490,15 @@ header.activeHeader .logo {
   flex-wrap: nowrap;
   gap: 0;
   width: 100%;
-  padding: 2.5rem 2%;
+  padding: 2.5rem 2rem;
   background-color: rgb(227, 233, 233);
   border-radius: 10px;
+}
+@media (max-width: 600px) {
+  .formContainer .authForm {
+    width: 95%;
+    padding: 1.5rem 1rem;
+  }
 }
 .formContainer .authForm .formTitle {
   font-size: 1.45rem;
@@ -388,6 +515,11 @@ header.activeHeader .logo {
   gap: 0;
   width: 90%;
   margin-bottom: 1.85rem;
+}
+@media (max-width: 600px) {
+  .formContainer .authForm .formField {
+    width: 100%;
+  }
 }
 .formContainer .authForm label {
   font-size: 14px;
