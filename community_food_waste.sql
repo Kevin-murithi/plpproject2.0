@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS Users (
     latitude DECIMAL(10, 8),                           
     longitude DECIMAL(11, 8)                         
 );
+
 CREATE TABLE IF NOT EXISTS business (
     biz_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,   
     name VARCHAR(255) NOT NULL,                       
@@ -28,8 +29,6 @@ CREATE TABLE IF NOT EXISTS business (
     verification_status ENUM('verified', 'not_verified') DEFAULT 'not_verified',  
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP   
 );
-
-ALTER TABLE business modify column category varchar(100) default null;
 
 CREATE TABLE food_listings (
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -45,8 +44,20 @@ CREATE TABLE food_listings (
     FOREIGN KEY (biz_id) REFERENCES business(biz_id) ON DELETE CASCADE
 );
 
-ALTER TABLE food_listings
-ADD COLUMN status ENUM('claimed', 'unclaimed') DEFAULT 'unclaimed';
+-- ALTER TABLE food_listings
+-- ADD COLUMN status ENUM('claimed', 'unclaimed') DEFAULT 'unclaimed';
+
+ALTER TABLE food_listings ADD no_of_claims INT DEFAULT 0;
+
+ALTER TABLE food_listings DROP COLUMN status;
+
+CREATE TABLE claimed_items (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    food_id INT,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (food_id) REFERENCES food_listings(id) ON DELETE CASCADE
+);
 
 
 [

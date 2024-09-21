@@ -1,7 +1,9 @@
 <section class="dashContainer userDash">
   <section class="sidebar">
     <div class="sideLogo userLogo">
-      Surplus
+      <span>Surplus</span>
+      <img src="images/menu.svg" alt="menu" class="menuOpen">
+      <img src="images/closeMenu.svg" alt="menu" class="menuClose hidden">
     </div>
 
     <div class="pageLinks userPages">
@@ -9,11 +11,6 @@
         <img src="images/home.svg" alt="home">
         <span>Home</span>
       </a>
-
-      {{!-- <a href="#">
-        <img src="images/donate.svg" alt="home">
-        <span>Donate</span>
-      </a> --}}
 
       <a href="#">
         <img src="images/tips.svg" alt="tips">
@@ -59,45 +56,55 @@
       </div>
     </div>
 
-    <div id="foodListings" style="padding: 2rem;">
-      {{#if bizDetails.length}}
-        {{#each bizDetails}}
-          <strong>Business:</strong> {{this.name}}<br>
-        {{/each}}
-      {{/if}}
+    <div class="dashMain userDashMain">
+     {{!-- <div style="border: 2px solid red; padding: .5rem 1rem;"> {{userId}}</div> --}}
+      <div class="foodListings">
+        {{#if bizDetails.length}}
+          <table>
+            <thead>
+              <tr>
+                <th>Business</th>
+                <th>Item Name</th>
+                <th>Expiration Date</th>
+                <th>Pickup Time</th>
+                <th>Pickup Location</th>
+                <th>Special Notes</th>
+                <th>No. of claims</th>
+                <th>Action</th>
+              </tr>
+            </thead>
 
-      <br>
-
-      {{#if foodListings.length}}
-        <div>
-          {{#each foodListings}}
-            <div>
-              <strong>Item Name:</strong> {{item_name}}<br>
-              <strong>Location:</strong> {{location}}<br>
-              <strong>Category:</strong> {{category}}<br>
-              <strong>Quantity:</strong> {{quantity}}<br>
-              <strong>Expiration Date:</strong> {{expiration_date}}<br>
-              <strong>Pickup Time:</strong> {{pickup_time}}<br>
-              <strong>Pickup Location:</strong> {{pickup_location}}<br>
-              <strong>Special Notes:</strong> {{special_notes}}
-              <br>
-
-              {{#if (eq status "unclaimed")}} 
-                <a href="/claim/{{id}}">Claim</a>
-              {{else}}
-                <a href="/unclaim/{{id}}">unClaim</a>
-              {{/if}}
-            </div>
-            <br>
-          {{/each}}
-        </div>
-      {{else}}
-        <p>No food listings available.</p>
-      {{/if}}
+            <tbody>
+              {{#each foodListings}}
+                <tr>
+                  <td data-label="Business:">
+                    {{#each ../bizDetails}}
+                      {{this.name}}
+                    {{/each}}
+                  </td>
+                  <td data-label="Item Name:">{{item_name}}</td>
+                  <td data-label="Expiration Date:">{{formatDate expiration_date}}</td>
+                  <td data-label="Pickup Time:">{{pickup_time}}</td>
+                  <td data-label="Pickup Location:">{{pickup_location}}</td>
+                  <td data-label="Special Notes:">{{special_notes}}</td>
+                  <td data-label="No. of claims:">{{no_of_claims}}</td>
+                  <td data-label="Action:" class="actionBtns">
+                    {{#if claimed}}
+                      <a href="/unclaim/{{id}}" class="unclaim">Unclaim</a>
+                    {{else}}
+                      <a href="/claim/{{id}}" class="claim">Claim</a>
+                    {{/if}}
+                  </td>
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        {{else}}
+          <p>No food listings available.</p>
+        {{/if}}
+      </div>
     </div>
   </section>
 </section>
 
-<script>
-
-</script>
+<script src="js/dashboard.js"></script>

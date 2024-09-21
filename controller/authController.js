@@ -13,7 +13,7 @@ module.exports.register = async (req, res) => {
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // SQL query to insert the new user, including geolocation data
+    // SQL query to insert the new user
     const sql = 'INSERT INTO Users (username, email, password, latitude, longitude) VALUES (?, ?, ?, ?, ?)';
     const values = [username, email, hashedPassword, latitude, longitude];
 
@@ -98,8 +98,6 @@ module.exports.bizregister = async (req, res) => {
     // SQL query to insert the new user
     const sql = 'INSERT INTO business (name, email, password) VALUES (?, ?, ?)';
     const values = [name, email, hashedPassword];
-
-    // Insert the user into the database
     const [insertResult] = await db.promise().query(sql, values);
 
     // Get the generated biz_id
@@ -229,18 +227,26 @@ module.exports.singleListing = async (req, res) => {
 
 module.exports.claimFood = async (req, res) => {
   const foodId = req.params.id;
+  const userId = req.session.user_id;
 
   try {
-    const sql = 'UPDATE food_listings SET status = "claimed" WHERE id = ? AND status = "unclaimed"';
+    const checkSql = 'SELECT * FROM claimed_items WHERE user_id = ? AND food_id = ?';
+    const [existingClaim] = await db.promise().query(checkSql, [userId, foodId]);
 
-    const [result] = await db.promise().query(sql, [foodId]);
-
-    if (result.affectedRows === 0) {
-      return res.status(400).send('Food item is already claimed or does not exist');
+    if (existingClaim.length > 0) {
+      return res.status(400).send('You have already claimed this food item');
     }
 
+    const claimSql = 'INSERT INTO claimed_items (user_id, food_id) VALUES (?, ?)';
+    await db.promise().query(claimSql, [userId, foodId]);
+
+    const updateSql = 'UPDATE food_listings SET no_of_claims = no_of_claims + 1 WHERE id = ?';
+    await db.promise().query(updateSql, [foodId]);
+
+    console.log(`Item claimed: ${foodId} by user: ${userId}`);
     res.redirect('/dashboard');
-  } catch (error) {
+  } 
+  catch (error) {
     console.error("Error during claiming food item:", error.message);
     res.status(500).send('Internal Server Error');
   }
@@ -248,25 +254,24 @@ module.exports.claimFood = async (req, res) => {
 
 module.exports.unclaimFood = async (req, res) => {
   const foodId = req.params.id;
+  const userId = req.session.user_id;
 
   try {
-    // SQL query to update the status of the food item to 'unclaimed'
-    const sql = 'UPDATE food_listings SET status = "unclaimed" WHERE id = ? AND status = "claimed"';
+    const deleteSql = 'DELETE FROM claimed_items WHERE user_id = ? AND food_id = ?';
+    const result = await db.promise().query(deleteSql, [userId, foodId]);
 
-    const [result] = await db.promise().query(sql, [foodId]);
+    const updateSql = 'UPDATE food_listings SET no_of_claims = no_of_claims - 1 WHERE id = ?';
+    await db.promise().query(updateSql, [foodId]);
+    console.log(`Item unclaimed: ${foodId} by user: ${userId}`);
 
-    // Check if any row was updated
-    if (result.affectedRows === 0) {
-      return res.status(400).send('Food item is already unclaimed or does not exist');
-    }
-
-    // Redirect to dashboard or success page after unclaiming
     res.redirect('/dashboard');
-  } catch (error) {
+  } 
+  catch (error) {
     console.error("Error during unclaiming food item:", error.message);
     res.status(500).send('Internal Server Error');
   }
 }
+
 
 module.exports.bizlogout = async (req, res) => {
   await req.session.destroy((err) => {

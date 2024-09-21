@@ -14,7 +14,7 @@ router.get('/signIn', loadPages.signIn);
 router.get('/dashboard', loadPages.dashboard);
 router.get('/bizsignUP', loadPages.bizsignUP);
 router.get('/bizsignIn', loadPages.bizsignIn);
-router.get('/bizdashboard', isAuthenticated, loadPages.bizdashboard);
+router.get('/bizdashboard', loadPages.bizdashboard);
 router.get('/selectAuth', loadPages.selectAuth);
 router.get('/adminSignIn', loadPages.adminSignIn);
 router.get('/admindashboard', loadPages.admindashboard);

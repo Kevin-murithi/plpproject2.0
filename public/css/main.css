@@ -366,6 +366,16 @@ header.activeHeader .logo {
   width: 100%;
   min-height: 100vh;
 }
+@media (max-width: 1040px) {
+  .dashContainer {
+    grid-template-columns: 250px 1fr;
+  }
+}
+@media (max-width: 780px) {
+  .dashContainer {
+    grid-template-columns: 1fr;
+  }
+}
 .dashContainer .sidebar {
   display: flex;
   flex-direction: column;
@@ -375,23 +385,55 @@ header.activeHeader .logo {
   gap: 0;
   background-color: rgb(37, 37, 37);
   padding: 1.25rem 0;
-}
-.dashContainer .sidebar .sideLogo {
-  text-align: left;
-  width: 100%;
-  font-size: 32px;
-  font-weight: 700;
-  padding: 0 1rem;
+  transition: transform 0.3s ease-in-out;
+  position: relative;
 }
 @media (max-width: 780px) {
-  .dashContainer .sidebar .sideLogo {
-    font-size: 26px;
+  .dashContainer .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 60px;
+    z-index: 10;
+  }
+}
+.dashContainer .sidebar .sideLogo {
+  width: 100%;
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0;
+}
+.dashContainer .sidebar .sideLogo span {
+  font-size: 32px;
+  font-weight: 700;
+}
+@media (max-width: 780px) {
+  .dashContainer .sidebar .sideLogo span {
+    display: none;
+    font-size: 28px;
   }
 }
 @media (max-width: 600px) {
-  .dashContainer .sidebar .sideLogo {
-    font-size: 24px;
+  .dashContainer .sidebar .sideLogo span {
+    font-size: 26px;
   }
+}
+.dashContainer .sidebar .sideLogo img {
+  display: none;
+}
+@media (max-width: 780px) {
+  .dashContainer .sidebar .sideLogo img {
+    display: block;
+    width: 28px;
+  }
+}
+.dashContainer .sidebar .sideLogo .hidden {
+  display: none;
 }
 .dashContainer .sidebar .userLogo {
   color: rgb(160, 243, 211);
@@ -435,6 +477,11 @@ header.activeHeader .logo {
   font-weight: 500;
   margin-left: 1rem;
 }
+@media (max-width: 780px) {
+  .dashContainer .sidebar .pageLinks a span {
+    display: none;
+  }
+}
 .dashContainer .sidebar .pageLinks a:hover {
   background-color: rgb(63, 62, 62);
 }
@@ -452,6 +499,11 @@ header.activeHeader .logo {
 }
 .dashContainer .sidebar .adminPages a:hover span {
   color: rgb(250, 248, 111);
+}
+@media (max-width: 780px) {
+  .dashContainer .dashBody {
+    margin-left: 60px;
+  }
 }
 .dashContainer .dashBody .dashHead {
   display: flex;
@@ -496,6 +548,98 @@ header.activeHeader .logo {
 .dashContainer .dashBody .dashHead .adminProfileBox span {
   color: rgb(82, 74, 5);
   margin-top: 4px;
+}
+.dashContainer .dashBody .dashMain {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 2rem 1.5rem;
+}
+.dashContainer .dashBody .dashMain .foodListings table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+.dashContainer .dashBody .dashMain .foodListings table thead {
+  background-color: #52af55;
+  color: white;
+}
+.dashContainer .dashBody .dashMain .foodListings table thead th {
+  padding: 12px 10px;
+  text-align: left;
+  border: 1.6px solid rgb(153, 152, 152);
+}
+.dashContainer .dashBody .dashMain .foodListings table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+.dashContainer .dashBody .dashMain .foodListings table tbody tr:hover {
+  background-color: #eeebeb;
+}
+.dashContainer .dashBody .dashMain .foodListings table tbody tr td {
+  padding: 14px 12px;
+  border: 1px solid #ddd;
+  position: relative;
+}
+.dashContainer .dashBody .dashMain .foodListings table tbody tr .actionBtns a {
+  border-radius: 4px;
+  padding: 0.55rem;
+  width: 100px;
+  color: white;
+  font-weight: 600;
+  font-size: 12px;
+  text-align: center;
+  transition: 0.3s ease;
+}
+.dashContainer .dashBody .dashMain .foodListings table tbody tr .actionBtns .claim {
+  background-color: #158baf;
+}
+.dashContainer .dashBody .dashMain .foodListings table tbody tr .actionBtns .claim:hover {
+  background-color: #1fb2df;
+}
+.dashContainer .dashBody .dashMain .foodListings table tbody tr .actionBtns .unclaim {
+  background-color: #dd0950;
+}
+.dashContainer .dashBody .dashMain .foodListings table tbody tr .actionBtns .unclaim:hover {
+  background-color: #f03674;
+}
+@media (max-width: 768px) {
+  .dashContainer .dashBody .dashMain .foodListings table {
+    display: block;
+    overflow-x: auto;
+  }
+  .dashContainer .dashBody .dashMain .foodListings table thead {
+    display: none;
+  }
+  .dashContainer .dashBody .dashMain .foodListings table tr {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    border: 2px solid rgb(180, 180, 180);
+  }
+  .dashContainer .dashBody .dashMain .foodListings table tr td {
+    display: grid;
+    grid-template-columns: 16ch 1fr;
+    gap: 0.25rem;
+  }
+  .dashContainer .dashBody .dashMain .foodListings table tr td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    margin-right: 10px;
+    display: inline-block;
+    font-weight: bold;
+    margin-right: 10px;
+  }
+}
+
+.dashContainer.active .sidebar {
+  width: 240px;
+}
+.dashContainer.active .sidebar .sideLogo span {
+  display: block;
+}
+.dashContainer.active .pageLinks a span {
+  display: block;
 }
 
 .formContainer {

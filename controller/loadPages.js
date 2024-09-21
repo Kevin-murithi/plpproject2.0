@@ -28,11 +28,52 @@ module.exports.bizsignIn = async (_req, res) => {
   res.render('loginbiz', {pageTitle: 'bizsignIn'});
 }
 
+// module.exports.dashboard = async (req, res) => {
+//   try {
+//     const query = 'SELECT * FROM food_listings ORDER BY created_at DESC';
+    
+//     // Promisify the database query
+//     const foodListings = await new Promise((resolve, reject) => {
+//       db.query(query, (err, results) => {
+//         if (err) return reject(err);
+//         resolve(results);
+//       });
+//     });
+
+//     if (foodListings.length === 0) {
+//       return res.render('dashboard', {pageTitle: 'User dashboard', foodListings: [], bizDetails: []});
+//     }
+
+//     const businessId = foodListings[0].biz_id; 
+//     const getBizDetails = `SELECT * FROM business WHERE biz_id = ?`;
+
+//     // Promisify the business details query
+//     const bizDetails = await new Promise((resolve, reject) => {
+//       db.query(getBizDetails, [businessId], (err, results) => {
+//         if (err) return reject(err);
+//         resolve(results);
+//       });
+//     });
+
+//     // Render the dashboard with the data
+//     res.render('dashboard', {
+//       pageTitle: 'User dashboard',
+//       foodListings: foodListings,
+//       bizDetails: bizDetails
+//     });
+//   } 
+//   catch (error) {
+//     console.error("Error fetching data:", error.message);
+//     res.status(500).json({ message: 'Error fetching data', error: error.message });
+//   }
+// };
+
+
 module.exports.dashboard = async (req, res) => {
   try {
     const query = 'SELECT * FROM food_listings ORDER BY created_at DESC';
     
-    // Promisify the database query
+    // Promisify the database query for food listings
     const foodListings = await new Promise((resolve, reject) => {
       db.query(query, (err, results) => {
         if (err) return reject(err);
@@ -41,7 +82,7 @@ module.exports.dashboard = async (req, res) => {
     });
 
     if (foodListings.length === 0) {
-      return res.render('dashboard', {pageTitle: 'User dashboard', foodListings: [], bizDetails: []});
+      return res.render('dashboard', { pageTitle: 'User dashboard', foodListings: [], bizDetails: [] });
     }
 
     const businessId = foodListings[0].biz_id; 
@@ -55,19 +96,30 @@ module.exports.dashboard = async (req, res) => {
       });
     });
 
+    const userId = req.session.user_id;
+    console.log(userId);
+
+    // Check claimed status for each food listing
+    const claimedItems = await Promise.all(foodListings.map(async (item) => {
+      const sql = 'SELECT * FROM claimed_items WHERE user_id = ? AND food_id = ?';
+      const [result] = await db.promise().query(sql, [userId, item.id]);
+      return { ...item, claimed: result.length > 0 };
+    }));
+
     // Render the dashboard with the data
     res.render('dashboard', {
       pageTitle: 'User dashboard',
-      foodListings: foodListings,
-      bizDetails: bizDetails
+      foodListings: claimedItems,
+      bizDetails: bizDetails,
+      userId: userId
     });
   } 
+  
   catch (error) {
     console.error("Error fetching data:", error.message);
     res.status(500).json({ message: 'Error fetching data', error: error.message });
   }
 };
-
 
 module.exports.bizdashboard = async (_req, res) => {
   res.render('bizdashboard', {pageTitle: 'Business dashboard'});

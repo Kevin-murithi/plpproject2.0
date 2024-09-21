@@ -1,22 +1,31 @@
-const db = require('../config/db');
+const menus = document.querySelectorAll('.menuOpen');
+const closeMenus = document.querySelectorAll('.menuClose');
+const dashboards = document.querySelectorAll('.dashContainer');
 
-// Model for food listing
-const createFoodTable = `
-    CREATE TABLE IF NOT EXISTS food_listings (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        name VARCHAR(100) NOT NULL,
-        amount INT NOT NULL,
-        location VARCHAR(100) NOT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    )
-`;
+menus.forEach(menu => {
+  menu.addEventListener('click', () => {
+    menu.classList.add('hidden');
 
-db.query(createFoodTable, (err) => {
-    if (err) {
-        console.error("Error creating food table", err.message);
-    } else {
-        console.log("Food listings table created or already exists.");
-    }
+    closeMenus.forEach(closeMenu => {
+      closeMenu.classList.remove('hidden');
+    })
+
+    dashboards.forEach(dashboard => {
+      dashboard.classList.toggle('active');
+    });
+  });
 });
 
-module.exports = db;
+closeMenus.forEach(closeMenu => {
+  closeMenu.addEventListener('click', () => {
+    closeMenu.classList.add('hidden');
+
+    menus.forEach(menu => {
+      menu.classList.remove('hidden');
+    })
+
+    dashboards.forEach(dashboard => {
+      dashboard.classList.toggle('active');
+    });
+  })
+})

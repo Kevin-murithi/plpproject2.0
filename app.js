@@ -17,10 +17,10 @@ const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-acce
 
 const handlebars = hbs.create({
   helpers: {
-    // Equality check helper: compares two values
+    // Equality check helper
     eq: (a, b) => a === b,
 
-    // Date formatting helper: formats a date to 'MM/DD/YYYY'
+    // Date formatting helper
     formatDate: (date) => {
       const d = new Date(date);
       return `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
@@ -32,12 +32,21 @@ const handlebars = hbs.create({
     // Conditional check: if a value is greater than another
     gt: (a, b) => a > b,
 
-    // JSON stringifying helper (useful for debugging)
-    json: (context) => JSON.stringify(context)
+    // JSON stringifying helper
+    json: (context) => JSON.stringify(context),
+
+    // Check if user has claimed a food item
+    checkClaimed: async (userId, foodId) => {
+      const sql = 'SELECT * FROM claimed_items WHERE user_id = ? AND food_id = ?';
+      const [result] = await db.promise().query(sql, [userId, foodId]);
+      
+      return result.length > 0;
+    }
   },
   extname: '.hbs',
   handlebars: allowInsecurePrototypeAccess(Handlebars)
 });
+
 
 app.engine('.hbs', handlebars.engine);
 app.set('view engine', '.hbs');

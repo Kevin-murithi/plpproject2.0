@@ -1,0 +1,154 @@
+-> dashboard.hbs:
+
+<td data-label="Action:" class="actionBtns">
+  {{#if (eq (checkClaimed userId id) true)}}
+    <a href="/unclaim/{{id}}" class="unclaim">Unclaim</a>
+  {{else}}
+    <a href="/claim/{{id}}" class="claim">Claim</a>
+  {{/if}}
+</td>
+
+
+-> app.js:
+
+const handlebars = hbs.create({
+  helpers: {
+    // Equality check helper
+    eq: (a, b) => a === b,
+
+    // Date formatting helper
+    formatDate: (date) => {
+      const d = new Date(date);
+      return `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
+    },
+
+    // Uppercase string helper
+    uppercase: (str) => str.toUpperCase(),
+
+    // Conditional check: if a value is greater than another
+    gt: (a, b) => a > b,
+
+    // JSON stringifying helper
+    json: (context) => JSON.stringify(context),
+
+    // Check if user has claimed a food item
+    checkClaimed: async (userId, foodId) => {
+      const sql = 'SELECT * FROM claimed_items WHERE user_id = ? AND food_id = ?';
+      const [result] = await db.promise().query(sql, [userId, foodId]);
+      
+      return result.length > 0;
+    }
+  },
+  extname: '.hbs',
+  handlebars: allowInsecurePrototypeAccess(Handlebars)
+});
+
+
+-> controllers:
+
+// Render dashboard page
+module.exports.dashboard = async (req, res) => {
+  try {
+    const query = 'SELECT * FROM food_listings ORDER BY created_at DESC';
+    
+    // Promisify the database query for food listings
+    const foodListings = await new Promise((resolve, reject) => {
+      db.query(query, (err, results) => {
+        if (err) return reject(err);
+        resolve(results);
+      });
+    });
+
+    if (foodListings.length === 0) {
+      return res.render('dashboard', { pageTitle: 'User dashboard', foodListings: [], bizDetails: [] });
+    }
+
+    const businessId = foodListings[0].biz_id; 
+    const getBizDetails = `SELECT * FROM business WHERE biz_id = ?`;
+
+    // Promisify the business details query
+    const bizDetails = await new Promise((resolve, reject) => {
+      db.query(getBizDetails, [businessId], (err, results) => {
+        if (err) return reject(err);
+        resolve(results);
+      });
+    });
+
+    const userId = req.session.user_id;
+
+    // Check claimed status for each food listing
+    const claimedItems = await Promise.all(foodListings.map(async (item) => {
+      const sql = 'SELECT * FROM claimed_items WHERE user_id = ? AND food_id = ?';
+      const [result] = await db.promise().query(sql, [userId, item.id]);
+      return { ...item, claimed: result.length > 0 }; // Add claimed status to the item
+    }));
+
+    // Render the dashboard with the data
+    res.render('dashboard', {
+      pageTitle: 'User dashboard',
+      foodListings: claimedItems,
+      bizDetails: bizDetails,
+      userId: userId
+    });
+  } 
+  catch (error) {
+    console.error("Error fetching data:", error.message);
+    res.status(500).json({ message: 'Error fetching data', error: error.message });
+  }
+};
+
+//claiming and unclaiming
+module.exports.claimFood = async (req, res) => {
+  const foodId = req.params.id;
+  const user_id = req.session.user_id;
+
+  try {
+    // Check if the user has already claimed the food item
+    const checkSql = 'SELECT * FROM claimed_items WHERE user_id = ? AND food_id = ?';
+    const [existingClaim] = await db.promise().query(checkSql, [user_id, foodId]);
+
+    if (existingClaim.length > 0) {
+      return res.status(400).send('You have already claimed this food item');
+    }
+
+    // Insert claim into the claimed_items table
+    const claimSql = 'INSERT INTO claimed_items (user_id, food_id) VALUES (?, ?)';
+    await db.promise().query(claimSql, [user_id, foodId]);
+
+    // Increment no_of_claims in food_listings
+    const updateSql = 'UPDATE food_listings SET no_of_claims = no_of_claims + 1 WHERE id = ?';
+    await db.promise().query(updateSql, [foodId]);
+
+    res.redirect('/dashboard');
+  } 
+  catch (error) {
+    console.error("Error during claiming food item:", error.message);
+    res.status(500).send('Internal Server Error');
+  }
+}
+
+module.exports.unclaimFood = async (req, res) => {
+  const foodId = req.params.id;
+  const userId = req.session.user_id;
+
+  try {
+    // Delete claim from claimed_items table
+    const deleteSql = 'DELETE FROM claimed_items WHERE user_id = ? AND food_id = ?';
+    const result = await db.promise().query(deleteSql, [userId, foodId]);
+
+    // Decrement no_of_claims in food_listings if the item was claimed
+    if (result.affectedRows > 0) {
+      const updateSql = 'UPDATE food_listings SET no_of_claims = no_of_claims - 1 WHERE id = ?';
+      await db.promise().query(updateSql, [foodId]);
+    }
+
+    res.redirect('/dashboard');
+  } 
+  catch (error) {
+    console.error("Error during unclaiming food item:", error.message);
+    res.status(500).send('Internal Server Error');
+  }
+}
+
+
+When I claim an item, the increament happens but the unclaim button does not display; instead the claim button remains. What could be the problem?

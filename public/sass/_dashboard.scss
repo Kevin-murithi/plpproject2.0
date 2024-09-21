@@ -14,23 +14,57 @@
   width: 100%;
   min-height: 100vh;
 
+  @media(max-width: 1040px){
+    grid-template-columns: 250px 1fr;
+  }
+  @media(max-width: 780px){
+    grid-template-columns: 1fr;
+  }
+  
   .sidebar{
     @include flexbox(column, flex-start, center);
     background-color: rgb(37, 37, 37);
     padding: 1.25rem 0;
+    transition: transform 0.3s ease-in-out;
+    position: relative;
+
+    @media (max-width: 780px) {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 60px;
+      //transform: translateX(-100%);
+      z-index: 10;
+    }
 
     .sideLogo{
-      text-align: left;
       width: 100%;
-      font-size: 32px;
-      font-weight: 700;
       padding: 0 1rem;
+      @include flexbox(row, space-between, center);
 
-      @media(max-width: 780px){
-        font-size: 26px;
+      span{
+        font-size: 32px;
+        font-weight: 700;
+
+        @media(max-width: 780px){
+          display: none;
+          font-size: 28px;
+        }
+        @media(max-width: 600px){
+          font-size: 26px;
+        }
       }
-      @media(max-width: 600px){
-        font-size: 24px;
+      img{
+        display: none;
+
+        @media(max-width: 780px){
+          display: block;
+          width: 28px;
+        }
+      }
+      .hidden{
+        display: none;
       }
     }
 
@@ -68,6 +102,10 @@
           font-size: 1.15rem;
           font-weight: 500;
           margin-left: 1rem;
+
+          @media(max-width: 780px){
+            display: none;
+          }
         }
 
         &:hover{
@@ -110,6 +148,10 @@
   }
 
   .dashBody{
+    @media(max-width: 780px){
+      margin-left: 60px;
+    }
+
     .dashHead{
       @include flexbox(row, space-between, center);
       padding: 1.25rem 0 .8rem 0;
@@ -153,6 +195,133 @@
           color: rgb(82, 74, 5);
           margin-top: 4px;
         }
+      }
+    }
+
+    .dashMain{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 2rem 1.5rem;
+
+      .foodListings {
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          margin-bottom: 20px;
+      
+          thead {
+            background-color: #52af55;
+            color: white;
+      
+            th {
+              padding: 12px 10px;
+              text-align: left;
+              border: 1.6px solid rgb(153, 152, 152);
+            }
+          }
+      
+          tbody {
+            tr {
+              &:nth-child(even) {
+                background-color: #f2f2f2;
+              }
+      
+              &:hover {
+                background-color: #eeebeb;
+              }
+      
+              td {
+                padding: 14px 12px;
+                border: 1px solid #ddd;
+                position: relative;
+              }
+      
+              .actionBtns {
+                a {
+                  border-radius: 4px;
+                  padding: 0.55rem;
+                  width: 100px;
+                  color: white;
+                  font-weight: 600;
+                  font-size: 12px;
+                  text-align: center;
+                  transition: 0.3s ease;
+                }
+      
+                .claim {
+                  background-color: #158baf;
+      
+                  &:hover {
+                    background-color: #1fb2df;
+                  }
+                }
+      
+                .unclaim {
+                  background-color: #dd0950;
+      
+                  &:hover {
+                    background-color: #f03674;
+                  }
+                }
+              }
+            }
+          }
+        }
+      
+        @media (max-width: 768px) {
+          table {
+            display: block;
+            overflow-x: auto;
+      
+            thead {
+              display: none;
+            }
+      
+            tr {
+              display: flex;
+              flex-direction: column;
+              margin-bottom: 1rem;
+              border: 2px solid rgb(180, 180, 180);
+      
+              td {
+                display: grid;
+                grid-template-columns: 16ch 1fr;
+                gap: .25rem;
+
+                &::before {
+                  content: attr(data-label);
+                  font-weight: bold;
+                  margin-right: 10px;
+                  display: inline-block;
+                  font-weight: bold;
+                  margin-right: 10px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.dashContainer.active{
+  .sidebar{
+    width: 240px;
+
+    .sideLogo{
+      span{
+        display: block;
+      }
+    }
+  }
+
+  .pageLinks{
+    a{
+      span{
+        display: block;
       }
     }
   }
