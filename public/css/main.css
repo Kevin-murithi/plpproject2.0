@@ -399,6 +399,9 @@ header.activeHeader .logo {
 .dashContainer .sidebar .bizLogo {
   color: rgb(178, 163, 247);
 }
+.dashContainer .sidebar .adminLogo {
+  color: rgb(247, 239, 163);
+}
 .dashContainer .sidebar .pageLinks {
   display: flex;
   flex-direction: column;
@@ -432,23 +435,23 @@ header.activeHeader .logo {
   font-weight: 500;
   margin-left: 1rem;
 }
+.dashContainer .sidebar .pageLinks a:hover {
+  background-color: rgb(63, 62, 62);
+}
 .dashContainer .sidebar .pageLinks a:hover img {
   opacity: 1;
 }
 .dashContainer .sidebar .pageLinks a:last-child {
   margin-top: auto;
 }
-.dashContainer .sidebar .userPages a:hover {
-  background-color: rgb(63, 62, 62);
-}
 .dashContainer .sidebar .userPages a:hover span {
   color: rgb(80, 245, 182);
 }
-.dashContainer .sidebar .bizPages a:hover {
-  background-color: rgb(63, 62, 62);
-}
 .dashContainer .sidebar .bizPages a:hover span {
   color: rgb(160, 126, 253);
+}
+.dashContainer .sidebar .adminPages a:hover span {
+  color: rgb(250, 248, 111);
 }
 .dashContainer .dashBody .dashHead {
   display: flex;
@@ -488,6 +491,11 @@ header.activeHeader .logo {
 }
 .dashContainer .dashBody .dashHead .bizProfileBox span {
   color: rgb(38, 13, 77);
+  margin-top: 4px;
+}
+.dashContainer .dashBody .dashHead .adminProfileBox span {
+  color: rgb(82, 74, 5);
+  margin-top: 4px;
 }
 
 .formContainer {

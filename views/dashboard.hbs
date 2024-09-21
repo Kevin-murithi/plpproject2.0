@@ -10,10 +10,10 @@
         <span>Home</span>
       </a>
 
-      <a href="#">
+      {{!-- <a href="#">
         <img src="images/donate.svg" alt="home">
         <span>Donate</span>
-      </a>
+      </a> --}}
 
       <a href="#">
         <img src="images/tips.svg" alt="tips">
@@ -58,27 +58,46 @@
         <span>John</span>
       </div>
     </div>
+
+    <div id="foodListings" style="padding: 2rem;">
+      {{#if bizDetails.length}}
+        {{#each bizDetails}}
+          <strong>Business:</strong> {{this.name}}<br>
+        {{/each}}
+      {{/if}}
+
+      <br>
+
+      {{#if foodListings.length}}
+        <div>
+          {{#each foodListings}}
+            <div>
+              <strong>Item Name:</strong> {{item_name}}<br>
+              <strong>Location:</strong> {{location}}<br>
+              <strong>Category:</strong> {{category}}<br>
+              <strong>Quantity:</strong> {{quantity}}<br>
+              <strong>Expiration Date:</strong> {{expiration_date}}<br>
+              <strong>Pickup Time:</strong> {{pickup_time}}<br>
+              <strong>Pickup Location:</strong> {{pickup_location}}<br>
+              <strong>Special Notes:</strong> {{special_notes}}
+              <br>
+
+              {{#if (eq status "unclaimed")}} 
+                <a href="/claim/{{id}}">Claim</a>
+              {{else}}
+                <a href="/unclaim/{{id}}">unClaim</a>
+              {{/if}}
+            </div>
+            <br>
+          {{/each}}
+        </div>
+      {{else}}
+        <p>No food listings available.</p>
+      {{/if}}
+    </div>
   </section>
 </section>
 
+<script>
 
-{{!-- <div id="foodListings">
-  {{#if foodListings.length}}
-    <ul>
-      {{#each foodListings}}
-        <li>
-          <strong>Item Name:</strong> {{item_name}}<br>
-          <strong>Location:</strong> {{location}}<br>
-          <strong>Category:</strong> {{category}}<br>
-          <strong>Quantity:</strong> {{quantity}}<br>
-          <strong>Expiration Date:</strong> {{expiration_date}}<br>
-          <strong>Pickup Time:</strong> {{pickup_time}}<br>
-          <strong>Pickup Location:</strong> {{pickup_location}}<br>
-          <strong>Special Notes:</strong> {{special_notes}}
-        </li>
-      {{/each}}
-    </ul>
-  {{else}}
-    <p>No food listings available.</p>
-  {{/if}}
-</div> --}}
+</script>

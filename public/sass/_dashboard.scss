@@ -40,6 +40,9 @@
     .bizLogo{
       color: rgb(178, 163, 247);
     }
+    .adminLogo{
+      color: rgb(247, 239, 163);
+    }
 
 
     .pageLinks{
@@ -68,6 +71,8 @@
         }
 
         &:hover{
+          background-color: rgb(63, 62, 62);
+
           img{
             opacity: 1;
           }
@@ -80,9 +85,7 @@
     }
 
     .userPages{
-      a:hover{
-        background-color: rgb(63, 62, 62);
-        
+      a:hover{ 
         span{
           color: rgb(80, 245, 182);
         }
@@ -91,10 +94,16 @@
 
     .bizPages{
       a:hover{
-        background-color: rgb(63, 62, 62);
-        
         span{
           color: rgb(160, 126, 253);
+        }
+      }
+    }
+
+    .adminPages{
+      a:hover{
+        span{
+          color: rgb(250, 248, 111);
         }
       }
     }
@@ -136,6 +145,13 @@
       .bizProfileBox{
         span{
           color: rgb(38, 13, 77);
+          margin-top: 4px;
+        }
+      }
+      .adminProfileBox{
+        span{
+          color: rgb(82, 74, 5);
+          margin-top: 4px;
         }
       }
     }

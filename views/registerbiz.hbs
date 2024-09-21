@@ -42,8 +42,7 @@ document.getElementById('businessRegisterForm').addEventListener('submit', async
     };
 
     try {
-        // Send a POST request to the registration endpoint
-        const response = await fetch('/bizregister', {  // Corrected URL path
+        const response = await fetch('/bizregister', { 
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -52,11 +51,10 @@ document.getElementById('businessRegisterForm').addEventListener('submit', async
         });
 
         if (response.ok) {
-            // Registration successful, redirect to login page
-            alert('Registration successful! Please log in.');
-            window.location.href = '/bizsignIn'; // Correct redirection to login page
-        } else {
-            // Handle failed registration
+            alert('Registration successful!');
+            window.location.href = '/bizdashboard';
+        } 
+        else {
             const errorText = await response.text();
             alert('Registration failed: ' + errorText);
         }

@@ -26,7 +26,6 @@
 </div>
 
 <script>
-  // Handle registration form submission
   document.getElementById('registerForm').addEventListener('submit', async (e) => {
     e.preventDefault(); // Prevent default form submission
 
@@ -35,21 +34,24 @@
     const password = document.getElementById('password').value;
     const email = document.getElementById('email').value;
 
+    // Prepare data object, initially without latitude and longitude
     const data = {
-        username,
-        email,
-        password,
-        latitude: null,  // Placeholder for latitude
-        longitude: null  // Placeholder for longitude
+      username,
+      email,
+      password,
+      latitude: null,
+      longitude: null
     };
 
-    // Try to get the geolocation of the user
+    // Check if geolocation is available in the browser
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(async (position) => {
+        // Populate latitude and longitude in the data object
         data.latitude = position.coords.latitude;
         data.longitude = position.coords.longitude;
 
         try {
+          // Send registration data, including geolocation, to the server
           const response = await fetch('/register', {
             method: 'POST',
             headers: {
@@ -58,12 +60,10 @@
             body: JSON.stringify(data)
           });
 
-          if (response.ok) {           
-            alert('Registration successful! Please log in.');
-            console.log(data);
-            window.location.href = '/signIn'; 
+          if (response.ok) {
+            alert('Registration successful! Redirecting to dashboard...');
+            window.location.href = '/dashboard'; // Redirect to the dashboard
           } else {
-            // Handle failed registration
             const errorText = await response.text();
             alert('Registration failed: ' + errorText);
           }
@@ -75,9 +75,9 @@
         console.error('Geolocation error:', error);
         alert('Unable to get your location. Please check location settings.');
       });
-    } 
-    else {
+    } else {
       alert('Geolocation is not supported by your browser.');
     }
   });
 </script>
+

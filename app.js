@@ -16,6 +16,25 @@ const app = express();
 const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access');
 
 const handlebars = hbs.create({
+  helpers: {
+    // Equality check helper: compares two values
+    eq: (a, b) => a === b,
+
+    // Date formatting helper: formats a date to 'MM/DD/YYYY'
+    formatDate: (date) => {
+      const d = new Date(date);
+      return `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
+    },
+
+    // Uppercase string helper
+    uppercase: (str) => str.toUpperCase(),
+
+    // Conditional check: if a value is greater than another
+    gt: (a, b) => a > b,
+
+    // JSON stringifying helper (useful for debugging)
+    json: (context) => JSON.stringify(context)
+  },
   extname: '.hbs',
   handlebars: allowInsecurePrototypeAccess(Handlebars)
 });

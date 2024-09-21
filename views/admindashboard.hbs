@@ -1,10 +1,10 @@
-<section class="dashContainer bizDash">
+<section class="dashContainer adminDash">
   <section class="sidebar">
-    <div class="sideLogo bizLogo">
+    <div class="sideLogo adminLogo">
       Surplus
     </div>
 
-    <div class="pageLinks bizPages">
+    <div class="pageLinks adminPages">
       <a href="#">
         <img src="images/home.svg" alt="home">
         <span>Home</span>
@@ -40,7 +40,7 @@
         <span>Profile</span>
       </a>
 
-      <a href="/bizlogout" id="logoutButton">
+      <a href="#">
         <img src="images/logout.svg" alt="logout">
         <span>Logout</span>
       </a>
@@ -53,40 +53,10 @@
         Dashboard
       </div>
 
-      <div class="profileBox bizProfileBox">
-        <img src="images/businessProfile.svg" alt="bizProfile">
-        <span>Pizza Palace</span>
+      <div class="profileBox adminProfileBox">
+        <img src="images/adminProfile.svg" alt="adminProfile">
+        <span>Admin</span>
       </div>
     </div>
   </section>
 </section>
-
-<script>
-  document.getElementById('logoutButton').addEventListener('click', async () => {
-    try {
-      const response = await fetch('/bizlogout', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (response.ok) {
-        //alert('Logged out successfully!');
-        window.location.href = '/';
-        location.reload(); 
-      } 
-      else {
-        const errorText = await response.text();
-        alert('Logout failed: ' + errorText);
-      }
-    } catch (error) {
-      console.error('Error during logout:', error);
-      alert('An unexpected error occurred.');
-    }
-  });
-</script>
-
-
-
-

@@ -33,3 +33,20 @@
     </div>
   </nav>
 </header>
+
+<script>
+  const startHeadLogin = document.querySelector('.startHeadLogin');
+  const dropDownLogin = document.querySelector('.dropDownLogin');
+  const authOptsLogin = document.querySelector('.authOptsLogin');
+  const navbar = document.querySelector('.navbar');
+  const header = document.querySelector('header');
+
+  function openLoginOpts() {
+    authOptsLogin.classList.toggle('reveal');
+    dropDownLogin.classList.toggle('rotate');
+    navbar.classList.toggle('active');
+    header.classList.toggle('activeHeader');
+  }
+
+  startHeadLogin.onclick = () => openLoginOpts();
+</script>
