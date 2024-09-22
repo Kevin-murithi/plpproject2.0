@@ -1,154 +1,287 @@
--> dashboard.hbs:
+-> user dashboard:
+<section class="dashContainer userDash">
+  <section class="sidebar">
+    <div class="sideLogo userLogo">
+      <span>Surplus</span>
+      <img src="images/menu.svg" alt="menu" class="menuOpen">
+      <img src="images/closeMenu.svg" alt="menu" class="menuClose hidden">
+    </div>
 
-<td data-label="Action:" class="actionBtns">
-  {{#if (eq (checkClaimed userId id) true)}}
-    <a href="/unclaim/{{id}}" class="unclaim">Unclaim</a>
-  {{else}}
-    <a href="/claim/{{id}}" class="claim">Claim</a>
-  {{/if}}
-</td>
+    <div class="pageLinks userPages">
+      <a href="#">
+        <img src="images/home.svg" alt="home">
+        <span>Home</span>
+      </a>
+
+      <a href="#">
+        <img src="images/tips.svg" alt="tips">
+        <span>Resources/Tips</span>
+      </a>
+
+      <a href="#">
+        <img src="images/notifications.svg" alt="home">
+        <span>Notifications</span>
+      </a>
+
+      <a href="#">
+        <img src="images/support.svg" alt="home">
+        <span>Support</span>
+      </a>
+
+      <a href="#">
+        <img src="images/leaderboard.svg" alt="home">
+        <span>Leaderboard</span>
+      </a>
+
+      <a href="#">
+        <img src="images/profile.svg" alt="home">
+        <span>Profile</span>
+      </a>
+
+      <a href="#">
+        <img src="images/logout.svg" alt="logout">
+        <span>Logout</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="dashBody">
+    <div class="dashHead">
+      <div class="currentPage">
+        Dashboard
+      </div>
+
+      <div class="profileBox userProfileBox">
+        <img src="images/userProfile.svg" alt="userProfile">
+        <span>John</span>
+      </div>
+    </div>
+
+    <div class="dashMain userDashMain">
+     {{!-- Containers to be shown by the page links go here go here --}}
+    </div>
+  </section>
+</section>
 
 
--> app.js:
+-> business dashboard:
+<section class="dashContainer bizDash">
+  <section class="sidebar">
+    <div class="sideLogo bizLogo">
+      <span>Surplus</span>
+      <img src="images/menu.svg" alt="menu" class="menuOpen">
+      <img src="images/closeMenu.svg" alt="menu" class="menuClose hidden">
+    </div>
 
-const handlebars = hbs.create({
-  helpers: {
-    // Equality check helper
-    eq: (a, b) => a === b,
+    <div class="pageLinks bizPages">
+      <a href="#">
+        <img src="images/home.svg" alt="home">
+        <span>Home</span>
+      </a>
 
-    // Date formatting helper
-    formatDate: (date) => {
-      const d = new Date(date);
-      return `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
-    },
+      <a href="#">
+        <img src="images/donate.svg" alt="home">
+        <span>Donate</span>
+      </a>
 
-    // Uppercase string helper
-    uppercase: (str) => str.toUpperCase(),
+      <a href="#">
+        <img src="images/tips.svg" alt="tips">
+        <span>Resources/Tips</span>
+      </a>
 
-    // Conditional check: if a value is greater than another
-    gt: (a, b) => a > b,
+      <a href="#">
+        <img src="images/notifications.svg" alt="home">
+        <span>Notifications</span>
+      </a>
 
-    // JSON stringifying helper
-    json: (context) => JSON.stringify(context),
+      <a href="#">
+        <img src="images/support.svg" alt="home">
+        <span>Support</span>
+      </a>
 
-    // Check if user has claimed a food item
-    checkClaimed: async (userId, foodId) => {
-      const sql = 'SELECT * FROM claimed_items WHERE user_id = ? AND food_id = ?';
-      const [result] = await db.promise().query(sql, [userId, foodId]);
-      
-      return result.length > 0;
+      <a href="#">
+        <img src="images/leaderboard.svg" alt="home">
+        <span>Leaderboard</span>
+      </a>
+
+      <a href="#">
+        <img src="images/profile.svg" alt="home">
+        <span>Profile</span>
+      </a>
+
+      <a href="/bizlogout" id="logoutButton">
+        <img src="images/logout.svg" alt="logout">
+        <span>Logout</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="dashBody">
+    <div class="dashHead">
+      <div class="currentPage">
+        Dashboard
+      </div>
+
+      <div class="profileBox bizProfileBox">
+        <img src="images/businessProfile.svg" alt="bizProfile">
+        <span>Pizza Palace</span>
+      </div>
+    </div>
+
+    <div class="dashMain bizDashMain">
+     {{!-- Containers to be shown by the page links go here go here --}}
+    </div>
+  </section>
+</section>
+
+
+-> sidebar styles:
+
+.sidebar{
+    @include flexbox(column, flex-start, center);
+    background-color: rgb(37, 37, 37);
+    padding: 1.25rem 0;
+    transition: transform 0.3s ease-in-out;
+    position: relative;
+
+    @media (max-width: 780px) {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 60px;
+      //transform: translateX(-100%);
+      z-index: 10;
     }
-  },
-  extname: '.hbs',
-  handlebars: allowInsecurePrototypeAccess(Handlebars)
-});
 
+    .sideLogo{
+      width: 100%;
+      padding: 0 1rem;
+      @include flexbox(row, space-between, center);
 
--> controllers:
+      span{
+        font-size: 32px;
+        font-weight: 700;
 
-// Render dashboard page
-module.exports.dashboard = async (req, res) => {
-  try {
-    const query = 'SELECT * FROM food_listings ORDER BY created_at DESC';
-    
-    // Promisify the database query for food listings
-    const foodListings = await new Promise((resolve, reject) => {
-      db.query(query, (err, results) => {
-        if (err) return reject(err);
-        resolve(results);
-      });
-    });
+        @media(max-width: 780px){
+          display: none;
+          font-size: 28px;
+        }
+        @media(max-width: 600px){
+          font-size: 26px;
+        }
+      }
+      img{
+        display: none;
 
-    if (foodListings.length === 0) {
-      return res.render('dashboard', { pageTitle: 'User dashboard', foodListings: [], bizDetails: [] });
+        @media(max-width: 780px){
+          display: block;
+          width: 28px;
+        }
+      }
+      .hidden{
+        display: none;
+      }
     }
 
-    const businessId = foodListings[0].biz_id; 
-    const getBizDetails = `SELECT * FROM business WHERE biz_id = ?`;
+    .userLogo{
+      color: rgb(160, 243, 211);
+    }
+    .bizLogo{
+      color: rgb(178, 163, 247);
+    }
+    .adminLogo{
+      color: rgb(247, 239, 163);
+    }
 
-    // Promisify the business details query
-    const bizDetails = await new Promise((resolve, reject) => {
-      db.query(getBizDetails, [businessId], (err, results) => {
-        if (err) return reject(err);
-        resolve(results);
-      });
-    });
 
-    const userId = req.session.user_id;
+    .pageLinks{
+      @include flexbox(column, flex-start, center);
+      margin-top: 2.5rem;
+      width: 100%;
+      height: 100%;
 
-    // Check claimed status for each food listing
-    const claimedItems = await Promise.all(foodListings.map(async (item) => {
-      const sql = 'SELECT * FROM claimed_items WHERE user_id = ? AND food_id = ?';
-      const [result] = await db.promise().query(sql, [userId, item.id]);
-      return { ...item, claimed: result.length > 0 }; // Add claimed status to the item
-    }));
+      a{
+        @include flexbox(row, start, center);
+        width: 100%;
+        margin-bottom: 0;
+        padding: 1.05rem 1rem;
+        transition: .2s ease;
 
-    // Render the dashboard with the data
-    res.render('dashboard', {
-      pageTitle: 'User dashboard',
-      foodListings: claimedItems,
-      bizDetails: bizDetails,
-      userId: userId
-    });
-  } 
-  catch (error) {
-    console.error("Error fetching data:", error.message);
-    res.status(500).json({ message: 'Error fetching data', error: error.message });
+        img{
+          width: 28px;
+          opacity: .75;
+        }
+
+        span{
+          color: rgb(236, 234, 234);
+          font-size: 1.15rem;
+          font-weight: 500;
+          margin-left: 1rem;
+
+          @media(max-width: 780px){
+            display: none;
+          }
+        }
+
+        &:hover{
+          background-color: rgb(63, 62, 62);
+
+          img{
+            opacity: 1;
+          }
+        }
+      }
+
+      a:last-child {
+        margin-top: auto;
+      }
+    }
+
+    .userPages{
+      a:hover{ 
+        span{
+          color: rgb(80, 245, 182);
+        }
+      }
+    }
+
+    .bizPages{
+      a:hover{
+        span{
+          color: rgb(160, 126, 253);
+        }
+      }
+    }
+
+    .adminPages{
+      a:hover{
+        span{
+          color: rgb(250, 248, 111);
+        }
+      }
+    }
   }
-};
 
-//claiming and unclaiming
-module.exports.claimFood = async (req, res) => {
-  const foodId = req.params.id;
-  const user_id = req.session.user_id;
+  .dashContainer.active{
+  .sidebar{
+    width: 240px;
 
-  try {
-    // Check if the user has already claimed the food item
-    const checkSql = 'SELECT * FROM claimed_items WHERE user_id = ? AND food_id = ?';
-    const [existingClaim] = await db.promise().query(checkSql, [user_id, foodId]);
-
-    if (existingClaim.length > 0) {
-      return res.status(400).send('You have already claimed this food item');
+    .sideLogo{
+      span{
+        display: block;
+      }
     }
+  }
 
-    // Insert claim into the claimed_items table
-    const claimSql = 'INSERT INTO claimed_items (user_id, food_id) VALUES (?, ?)';
-    await db.promise().query(claimSql, [user_id, foodId]);
-
-    // Increment no_of_claims in food_listings
-    const updateSql = 'UPDATE food_listings SET no_of_claims = no_of_claims + 1 WHERE id = ?';
-    await db.promise().query(updateSql, [foodId]);
-
-    res.redirect('/dashboard');
-  } 
-  catch (error) {
-    console.error("Error during claiming food item:", error.message);
-    res.status(500).send('Internal Server Error');
+  .pageLinks{
+    a{
+      span{
+        display: block;
+      }
+    }
   }
 }
 
-module.exports.unclaimFood = async (req, res) => {
-  const foodId = req.params.id;
-  const userId = req.session.user_id;
 
-  try {
-    // Delete claim from claimed_items table
-    const deleteSql = 'DELETE FROM claimed_items WHERE user_id = ? AND food_id = ?';
-    const result = await db.promise().query(deleteSql, [userId, foodId]);
-
-    // Decrement no_of_claims in food_listings if the item was claimed
-    if (result.affectedRows > 0) {
-      const updateSql = 'UPDATE food_listings SET no_of_claims = no_of_claims - 1 WHERE id = ?';
-      await db.promise().query(updateSql, [foodId]);
-    }
-
-    res.redirect('/dashboard');
-  } 
-  catch (error) {
-    console.error("Error during unclaiming food item:", error.message);
-    res.status(500).send('Internal Server Error');
-  }
-}
-
-
-When I claim an item, the increament happens but the unclaim button does not display; instead the claim button remains. What could be the problem?
+Change the <a></a> tags inside the pageLinks divs to buttons; e.g. <a href="#"><img src="images/home.svg" alt="home"><span>Home</span></a> becomes <button type="button"><img src="images/home.svg" alt="home"><span>Home</span></button>. In the scss, change .pageLinks{ a { //existing styles}} to .pageLinks{ button { //existing styles}}. Maintain the existing styles. I'm switching from a tags to buttons because I want to use containers inside the same file, instead of many pages/files. Create the actual containers inside each dashMain corresponding to the respective pageLinks. Inside those containers, add a h1 indicating which container it is. Also create a function to switch the containers. Use a class `hidden` for the switching, having the home container shown by default in both the cases of userDash and bizDash.

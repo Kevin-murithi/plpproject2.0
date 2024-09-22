@@ -455,7 +455,7 @@ header.activeHeader .logo {
   width: 100%;
   height: 100%;
 }
-.dashContainer .sidebar .pageLinks a {
+.dashContainer .sidebar .pageLinks button {
   display: flex;
   flex-direction: row;
   justify-content: start;
@@ -466,38 +466,41 @@ header.activeHeader .logo {
   margin-bottom: 0;
   padding: 1.05rem 1rem;
   transition: 0.2s ease;
+  background: transparent;
+  border: none;
 }
-.dashContainer .sidebar .pageLinks a img {
+.dashContainer .sidebar .pageLinks button img {
   width: 28px;
   opacity: 0.75;
 }
-.dashContainer .sidebar .pageLinks a span {
+.dashContainer .sidebar .pageLinks button span {
   color: rgb(236, 234, 234);
   font-size: 1.15rem;
   font-weight: 500;
   margin-left: 1rem;
 }
 @media (max-width: 780px) {
-  .dashContainer .sidebar .pageLinks a span {
+  .dashContainer .sidebar .pageLinks button span {
     display: none;
   }
 }
-.dashContainer .sidebar .pageLinks a:hover {
+.dashContainer .sidebar .pageLinks button:hover {
   background-color: rgb(63, 62, 62);
+  cursor: pointer;
 }
-.dashContainer .sidebar .pageLinks a:hover img {
+.dashContainer .sidebar .pageLinks button:hover img {
   opacity: 1;
 }
-.dashContainer .sidebar .pageLinks a:last-child {
+.dashContainer .sidebar .pageLinks button:last-child {
   margin-top: auto;
 }
-.dashContainer .sidebar .userPages a:hover span {
+.dashContainer .sidebar .userPages button:hover span {
   color: rgb(80, 245, 182);
 }
-.dashContainer .sidebar .bizPages a:hover span {
+.dashContainer .sidebar .bizPages button:hover span {
   color: rgb(160, 126, 253);
 }
-.dashContainer .sidebar .adminPages a:hover span {
+.dashContainer .sidebar .adminPages button:hover span {
   color: rgb(250, 248, 111);
 }
 @media (max-width: 780px) {
@@ -631,6 +634,9 @@ header.activeHeader .logo {
     margin-right: 10px;
   }
 }
+.dashContainer .dashBody .dashMain .hidden {
+  display: none;
+}
 
 .dashContainer.active .sidebar {
   width: 240px;
@@ -638,7 +644,7 @@ header.activeHeader .logo {
 .dashContainer.active .sidebar .sideLogo span {
   display: block;
 }
-.dashContainer.active .pageLinks a span {
+.dashContainer.active .pageLinks button span {
   display: block;
 }
 

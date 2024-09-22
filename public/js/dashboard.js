@@ -29,3 +29,28 @@ closeMenus.forEach(closeMenu => {
     });
   })
 })
+
+document.addEventListener('DOMContentLoaded', () => {
+  const buttons = document.querySelectorAll('.pageLinks button');
+  const containers = document.querySelectorAll('.dashMain .container');
+
+  function switchContainer(target) {
+    containers.forEach(container => {
+      container.classList.add('hidden');
+    });
+
+    const activeContainer = document.querySelector(`.container.${target}`);
+    if (activeContainer) {
+      activeContainer.classList.remove('hidden'); 
+    }
+  }
+
+  switchContainer('home');
+
+  buttons.forEach(button => {
+    button.addEventListener('click', () => {
+      const target = button.getAttribute('data-target');
+      switchContainer(target);
+    });
+  });
+});

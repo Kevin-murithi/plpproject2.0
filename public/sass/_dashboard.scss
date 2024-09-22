@@ -85,12 +85,14 @@
       width: 100%;
       height: 100%;
 
-      a{
+      button{
         @include flexbox(row, start, center);
         width: 100%;
         margin-bottom: 0;
         padding: 1.05rem 1rem;
         transition: .2s ease;
+        background: transparent;
+        border: none;
 
         img{
           width: 28px;
@@ -110,6 +112,7 @@
 
         &:hover{
           background-color: rgb(63, 62, 62);
+          cursor: pointer;
 
           img{
             opacity: 1;
@@ -117,13 +120,13 @@
         }
       }
 
-      a:last-child {
+      button:last-child {
         margin-top: auto;
       }
     }
 
     .userPages{
-      a:hover{ 
+      button:hover{ 
         span{
           color: rgb(80, 245, 182);
         }
@@ -131,7 +134,7 @@
     }
 
     .bizPages{
-      a:hover{
+      button:hover{
         span{
           color: rgb(160, 126, 253);
         }
@@ -139,7 +142,7 @@
     }
 
     .adminPages{
-      a:hover{
+      button:hover{
         span{
           color: rgb(250, 248, 111);
         }
@@ -303,6 +306,10 @@
           }
         }
       }
+      
+      .hidden{
+        display: none;
+      }
     }
   }
 }
@@ -319,7 +326,7 @@
   }
 
   .pageLinks{
-    a{
+    button{
       span{
         display: block;
       }

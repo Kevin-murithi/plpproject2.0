@@ -7,40 +7,40 @@
     </div>
 
     <div class="pageLinks userPages">
-      <a href="#">
+      <button type="button" data-target="home">
         <img src="images/home.svg" alt="home">
         <span>Home</span>
-      </a>
+      </button>
 
-      <a href="#">
+      <button type="button" data-target="tips">
         <img src="images/tips.svg" alt="tips">
         <span>Resources/Tips</span>
-      </a>
+      </button>
 
-      <a href="#">
-        <img src="images/notifications.svg" alt="home">
+      <button type="button" data-target="notifications">
+        <img src="images/notifications.svg" alt="notifications">
         <span>Notifications</span>
-      </a>
+      </button>
 
-      <a href="#">
-        <img src="images/support.svg" alt="home">
+      <button type="button" data-target="support">
+        <img src="images/support.svg" alt="support">
         <span>Support</span>
-      </a>
+      </button>
 
-      <a href="#">
-        <img src="images/leaderboard.svg" alt="home">
+      <button type="button" data-target="leaderboard">
+        <img src="images/leaderboard.svg" alt="leaderboard">
         <span>Leaderboard</span>
-      </a>
+      </button>
 
-      <a href="#">
-        <img src="images/profile.svg" alt="home">
+      <button type="button" data-target="profile">
+        <img src="images/profile.svg" alt="profile">
         <span>Profile</span>
-      </a>
+      </button>
 
-      <a href="#">
+      <button type="button" data-target="logout">
         <img src="images/logout.svg" alt="logout">
         <span>Logout</span>
-      </a>
+      </button>
     </div>
   </section>
 
@@ -57,51 +57,76 @@
     </div>
 
     <div class="dashMain userDashMain">
-     {{!-- <div style="border: 2px solid red; padding: .5rem 1rem;"> {{userId}}</div> --}}
-      <div class="foodListings">
-        {{#if bizDetails.length}}
-          <table>
-            <thead>
-              <tr>
-                <th>Business</th>
-                <th>Item Name</th>
-                <th>Expiration Date</th>
-                <th>Pickup Time</th>
-                <th>Pickup Location</th>
-                <th>Special Notes</th>
-                <th>No. of claims</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {{#each foodListings}}
+      <div class="container home">
+        <div class="foodListings">
+          {{#if bizDetails.length}}
+            <table>
+              <thead>
                 <tr>
-                  <td data-label="Business:">
-                    {{#each ../bizDetails}}
-                      {{this.name}}
-                    {{/each}}
-                  </td>
-                  <td data-label="Item Name:">{{item_name}}</td>
-                  <td data-label="Expiration Date:">{{formatDate expiration_date}}</td>
-                  <td data-label="Pickup Time:">{{pickup_time}}</td>
-                  <td data-label="Pickup Location:">{{pickup_location}}</td>
-                  <td data-label="Special Notes:">{{special_notes}}</td>
-                  <td data-label="No. of claims:">{{no_of_claims}}</td>
-                  <td data-label="Action:" class="actionBtns">
-                    {{#if claimed}}
-                      <a href="/unclaim/{{id}}" class="unclaim">Unclaim</a>
-                    {{else}}
-                      <a href="/claim/{{id}}" class="claim">Claim</a>
-                    {{/if}}
-                  </td>
+                  <th>Business</th>
+                  <th>Item Name</th>
+                  <th>Expiration Date</th>
+                  <th>Pickup Time</th>
+                  <th>Pickup Location</th>
+                  <th>Special Notes</th>
+                  <th>No. of claims</th>
+                  <th>Action</th>
                 </tr>
-              {{/each}}
-            </tbody>
-          </table>
-        {{else}}
-          <p>No food listings available.</p>
-        {{/if}}
+              </thead>
+
+              <tbody>
+                {{#each foodListings}}
+                  <tr>
+                    <td data-label="Business:">
+                      {{#each ../bizDetails}}
+                        {{this.name}}
+                      {{/each}}
+                    </td>
+                    <td data-label="Item Name:">{{item_name}}</td>
+                    <td data-label="Expiration Date:">{{formatDate expiration_date}}</td>
+                    <td data-label="Pickup Time:">{{pickup_time}}</td>
+                    <td data-label="Pickup Location:">{{pickup_location}}</td>
+                    <td data-label="Special Notes:">{{special_notes}}</td>
+                    <td data-label="No. of claims:">{{no_of_claims}}</td>
+                    <td data-label="Action:" class="actionBtns">
+                      {{#if claimed}}
+                        <a href="/unclaim/{{id}}" class="unclaim">Unclaim</a>
+                      {{else}}
+                        <a href="/claim/{{id}}" class="claim">Claim</a>
+                      {{/if}}
+                    </td>
+                  </tr>
+                {{/each}}
+              </tbody>
+            </table>
+          {{else}}
+            <p>No food listings available.</p>
+          {{/if}}
+        </div>
+      </div>
+
+      <div class="container tips hidden">
+        <h1>Resources/Tips Container</h1>
+      </div>
+
+      <div class="container notifications hidden">
+        <h1>Notifications Container</h1>
+      </div>
+
+      <div class="container support hidden">
+        <h1>Support Container</h1>
+      </div>
+
+      <div class="container leaderboard hidden">
+        <h1>Leaderboard Container</h1>
+      </div>
+
+      <div class="container profile hidden">
+        <h1>Profile Container</h1>
+      </div>
+      
+      <div class="container logout hidden">
+        <h1>Logging out...</h1>
       </div>
     </div>
   </section>
