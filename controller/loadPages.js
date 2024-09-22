@@ -79,9 +79,51 @@ module.exports.dashboard = async (req, res) => {
   }
 };
 
-module.exports.bizdashboard = async (_req, res) => {
-  res.render('bizdashboard', {pageTitle: 'Business dashboard'});
-}
+module.exports.bizdashboard = async (req, res) => {
+  try {
+    const bizId = req.session.biz_id;
+
+    // Update max_exceeded for all listings of the business where no_of_claims >= quantity
+    const updateQuery = `
+      UPDATE food_listings 
+      SET max_exceeded = 'yes' 
+      WHERE biz_id = ? AND no_of_claims >= quantity
+    `;
+
+    // Execute the update query to set max_exceeded where necessary
+    await new Promise((resolve, reject) => {
+      db.query(updateQuery, [bizId], (err, results) => {
+        if (err) return reject(err);
+        resolve(results);
+      });
+    });
+
+    // Query the food listings specific to the logged-in business
+    const query = 'SELECT * FROM food_listings WHERE biz_id = ? ORDER BY created_at DESC';
+    
+    const foodListings = await new Promise((resolve, reject) => {
+      db.query(query, [bizId], (err, results) => {
+        if (err) return reject(err);
+        resolve(results);
+      });
+    });
+
+    if (foodListings.length === 0) {
+      return res.render('bizdashboard', { pageTitle: 'Business dashboard', foodListings: [] });
+    }
+
+    // Render the dashboard with the filtered food listings
+    res.render('bizdashboard', {
+      pageTitle: 'Business dashboard',
+      foodListings: foodListings,
+    });
+  } 
+  catch (error) {
+    console.error("Error fetching data:", error.message);
+    res.status(500).json({ message: 'Error fetching data', error: error.message });
+  }
+};
+
 
 module.exports.admindashboard = async (_req, res) => {
   res.render('admindashboard', {pageTitle: 'Admin Dashboard'});

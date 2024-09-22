@@ -32,6 +32,9 @@ const handlebars = hbs.create({
     // Conditional check: if a value is greater than another
     gt: (a, b) => a > b,
 
+    // Greater than or equal check
+    gte: (a, b) => a >= b,
+
     // JSON stringifying helper
     json: (context) => JSON.stringify(context),
 

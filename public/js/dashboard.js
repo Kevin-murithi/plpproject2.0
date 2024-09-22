@@ -38,11 +38,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Detect which dashboard is active: admin, user, or business
   let dashboardType = '';
+
   if (dashboardContainer.classList.contains('adminDash')) {
     dashboardType = 'admin';
-  } else if (dashboardContainer.classList.contains('userDash')) {
+  } 
+  else if (dashboardContainer.classList.contains('userDash')) {
     dashboardType = 'user';
-  } else if (dashboardContainer.classList.contains('businessDash')) {
+  } 
+  else if (dashboardContainer.classList.contains('bizDash')) {
     dashboardType = 'business';
   }
 

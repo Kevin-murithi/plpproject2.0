@@ -31,6 +31,7 @@ router.get('/api/users/bizprofile', authController.bizprofile);
 router.get('/bizlogout', authController.bizlogout);
 
 router.post('/api/food/createFood', authController.createFood);
+router.post('/api/food/removeListing', authController.removeListing);
 router.get('/api/food/listings', authController.listings);
 router.get('/api/food/listings/:id', authController.singleListing);
 

@@ -35,21 +35,19 @@ CREATE TABLE food_listings (
     biz_id INT,
     item_name VARCHAR(255),
     category VARCHAR(50),
-    quantity INT,
     expiration_date DATE,
     pickup_time VARCHAR(255),
     pickup_location VARCHAR(255),
     special_notes TEXT,
+    quantity INT,
+    no_of_claims INT DEFAULT 0;
+    max_exceeded ENUM('Yes', 'No') DEFAULT 'No';
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (biz_id) REFERENCES business(biz_id) ON DELETE CASCADE
 );
 
--- ALTER TABLE food_listings
--- ADD COLUMN status ENUM('claimed', 'unclaimed') DEFAULT 'unclaimed';
+ALTER TABLE food_listings ADD COLUMN max_exceeded ENUM('Yes', 'No') DEFAULT 'No';
 
-ALTER TABLE food_listings ADD no_of_claims INT DEFAULT 0;
-
-ALTER TABLE food_listings DROP COLUMN status;
 
 CREATE TABLE claimed_items (
     id INT PRIMARY KEY AUTO_INCREMENT,

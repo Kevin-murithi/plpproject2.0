@@ -203,6 +203,26 @@ module.exports.createFood = async (req, res) => {
   });
 };
 
+module.exports.removeListing = async (req, res) => {
+  const listingId = req.params.id;
+
+  try {
+    const query = 'DELETE FROM food_listings WHERE id = ? AND no_of_claims >= quantity';
+
+    await new Promise((resolve, reject) => {
+      db.query(query, [listingId], (err, results) => {
+        if (err) return reject(err);
+        resolve(results);
+      });
+    });
+
+    res.redirect('/bizdashboard');
+  } catch (error) {
+    console.error('Error removing food listing:', error.message);
+    res.status(500).json({ message: 'Error removing food listing', error: error.message });
+  }
+};
+
 module.exports.listings = async (req, res) => {
   const query = 'SELECT * FROM food_listings ORDER BY created_at DESC';
     

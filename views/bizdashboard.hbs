@@ -63,11 +63,17 @@
 
     <div class="dashMain bizDashMain">
       <div class="container home">
-        <h1>Home Container</h1>
+        <div class="mainHomeContent">
+          {{>tableListing}}
+        </div>
+
+        <div class="profileColumn"></div>
       </div>
+
       <div class="container donate hidden">
-        <h1>Donate Container</h1>
+        {{>donateForm}}
       </div>
+
       <div class="container tips hidden">
         <h1>Resources/Tips Container</h1>
       </div>
@@ -91,6 +97,8 @@
 </section>
 
 <script src="js/dashboard.js"></script>
+
+<!--
 
 <script>
   document.getElementById('logoutButton').addEventListener('click', async () => {
@@ -118,6 +126,4 @@
   });
 </script>
 
-
-
-
+-->
