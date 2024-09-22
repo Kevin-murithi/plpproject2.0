@@ -8,8 +8,8 @@
 
     <div class="pageLinks userPages">
       <button type="button" data-target="home">
-        <img src="images/home.svg" alt="home">
-        <span>Home</span>
+        <img src="images/dashboard.svg" alt="home">
+        <span>Dashboard</span>
       </button>
 
       <button type="button" data-target="tips">
@@ -58,59 +58,106 @@
 
     <div class="dashMain userDashMain">
       <div class="container home">
-        <div class="foodListings">
-          {{#if bizDetails.length}}
-            <table>
-              <thead>
-                <tr>
-                  <th>Business</th>
-                  <th>Item Name</th>
-                  <th>Expiration Date</th>
-                  <th>Pickup Time</th>
-                  <th>Pickup Location</th>
-                  <th>Special Notes</th>
-                  <th>No. of claims</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
+        <div class="mainHomeContent">
+          <div class="welcomeUser">
+            <div class="welSect">
+              <div>
+                <h1>Welcome, John.</h1>
+                <p>This web application aims to reduce food waste at the community level by connecting local grocery stores, restaurants, and households with surplus food to individuals and organizations that can utilize it.</p>
+              </div>
 
-              <tbody>
-                {{#each foodListings}}
-                  <tr>
-                    <td data-label="Business:">
-                      {{#each ../bizDetails}}
-                        {{this.name}}
-                      {{/each}}
-                    </td>
-                    <td data-label="Item Name:">{{item_name}}</td>
-                    <td data-label="Expiration Date:">{{formatDate expiration_date}}</td>
-                    <td data-label="Pickup Time:">{{pickup_time}}</td>
-                    <td data-label="Pickup Location:">{{pickup_location}}</td>
-                    <td data-label="Special Notes:">{{special_notes}}</td>
-                    <td data-label="No. of claims:">{{no_of_claims}}</td>
-                    <td data-label="Action:" class="actionBtns">
-                      {{#if claimed}}
-                        <a href="/unclaim/{{id}}" class="unclaim">Unclaim</a>
-                      {{else}}
-                        <a href="/claim/{{id}}" class="claim">Claim</a>
-                      {{/if}}
-                    </td>
-                  </tr>
-                {{/each}}
-              </tbody>
-            </table>
-          {{else}}
-            <p>No food listings available.</p>
-          {{/if}}
+              <div>
+                <img src="images/community.png" alt="community">
+              </div>
+            </div>
+          </div>
+
+          <div class="foodListings">
+            <h2>Food Listings</h2>
+
+            <div class="listingTable">
+              {{#if bizDetails.length}}
+                <table>
+                  <caption>Available food listings</caption>
+                  <thead>
+                    <tr>
+                      <th>Business</th>
+                      <th>Item Name</th>
+                      <th>Expiration Date</th>
+                      <th>Pickup Time</th>
+                      <th>Pickup Location</th>
+                      <th>Special Notes</th>
+                      {{!-- <th>No. of claims</th> --}}
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {{#each foodListings}}
+                      <tr>
+                        <td data-label="Business:">
+                          {{#each ../bizDetails}}
+                            {{this.name}}
+                          {{/each}}
+                        </td>
+                        <td data-label="Item Name:">{{item_name}}</td>
+                        <td data-label="Expiration Date:">{{formatDate expiration_date}}</td>
+                        <td data-label="Pickup Time:">{{pickup_time}}</td>
+                        <td data-label="Pickup Location:">{{pickup_location}}</td>
+                        <td data-label="Special Notes:">{{special_notes}}</td>
+                        {{!-- <td data-label="No. of claims:">{{no_of_claims}}</td> --}}
+                        <td data-label="Action:" class="actionBtns">
+                          {{#if claimed}}
+                            <a href="/unclaim/{{id}}" class="unclaim">Unclaim</a>
+                          {{else}}
+                            <a href="/claim/{{id}}" class="claim">Claim</a>
+                          {{/if}}
+                        </td>
+                      </tr>
+                    {{/each}}
+                  </tbody>
+                </table>
+              {{else}}
+                <p>No food listings available.</p>
+              {{/if}}
+            </div>
+          </div>
+        </div>
+
+        <div class="profileColumn">
+          <div class="userDetails">
+            <img src="images/userTag.svg" alt="usertag">
+
+            <div class="userCredentials">
+              <div class="userName">John Doe</div>
+              <div class="userEmail">johndoe@gmail.com</div>
+              <div class="userPhone">+254793678324</div>
+            </div>
+          </div>
+
+          <div class="userActivity">
+              <h3>Activity</h3>
+
+              <div class="activityDetails">
+                <div class="detail">
+                  <span>17</span>
+                  <span>Claims</span>
+                </div>
+
+                <div class="detail">
+                  <span>8%</span>
+                  <span>Waste Reduction</span>
+                </div>
+              </div>
+            </div>
         </div>
       </div>
 
       <div class="container tips hidden">
-          <h1>Resources/Tips Container</h1>
-          <div class="banner">
-          <h1>Learn How to Reduce Food Waste in Your Community</h1>
-          <p>Discover tips and resources to minimize food waste and make a positive impact on your environment and community.</p>
-          </div>
+        <div class="banner">
+        <h1>Learn How to Reduce Food Waste in Your Community</h1>
+        <p>Discover tips and resources to minimize food waste and make a positive impact on your environment and community.</p>
+        </div>
 
         <section class="why-reduce-waste">
             <h2 style="text-align: center;">Why Reducing Food Waste Matters</h2>
@@ -146,7 +193,7 @@
             <p>See how others in the community are reducing food waste.</p>
             <!-- You can add testimonials or stories here -->
         </section>
-          </div>
+      </div>
 
       <div class="container notifications hidden">
         <h1>Notifications Container</h1>
@@ -163,7 +210,7 @@
       <div class="container profile hidden">
         <h1>Profile Container</h1>
       </div>
-      
+
       <div class="container logout hidden">
         <h1>Logging out...</h1>
       </div>
