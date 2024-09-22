@@ -33,16 +33,62 @@ closeMenus.forEach(closeMenu => {
 document.addEventListener('DOMContentLoaded', () => {
   const buttons = document.querySelectorAll('.pageLinks button');
   const containers = document.querySelectorAll('.dashMain .container');
+  const currentPage = document.querySelector('.currentPage');
+  const dashboardContainer = document.querySelector('.dashContainer');
 
-  function switchContainer(target) {
+  // Detect which dashboard is active: admin, user, or business
+  let dashboardType = '';
+  if (dashboardContainer.classList.contains('adminDash')) {
+    dashboardType = 'admin';
+  } else if (dashboardContainer.classList.contains('userDash')) {
+    dashboardType = 'user';
+  } else if (dashboardContainer.classList.contains('businessDash')) {
+    dashboardType = 'business';
+  }
+
+  const pageTitles = {
+    admin: {
+      home: 'Dashboard',
+      donate: 'Donate',
+      tips: 'Resources/Tips',
+      notifications: 'Notifications',
+      support: 'Support',
+      leaderboard: 'Leaderboard',
+      profile: 'Profile',
+      logout: 'Logout'
+    },
+    user: {
+      home: 'Dashboard',
+      tips: 'Resources/Tips',
+      notifications: 'Notifications',
+      support: 'Support',
+      leaderboard: 'Leaderboard',
+      profile: 'Profile',
+      logout: 'Logout'
+    },
+    business: {
+      home: 'Dashboard',
+      donate: 'Donations',
+      tips: 'Resources',
+      notifications: 'Notifications',
+      support: 'Support',
+      leaderboard: 'Leaderboard',
+      profile: 'Profile',
+      logout: 'Logout'
+    }
+  };
+
+  function switchContainer(targetId) {
     containers.forEach(container => {
       container.classList.add('hidden');
     });
 
-    const activeContainer = document.querySelector(`.container.${target}`);
+    const activeContainer = document.querySelector(`.container.${targetId}`);
     if (activeContainer) {
       activeContainer.classList.remove('hidden'); 
     }
+
+    currentPage.textContent = pageTitles[dashboardType][targetId];
   }
 
   switchContainer('home');
