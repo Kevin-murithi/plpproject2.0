@@ -2,8 +2,6 @@
 document.getElementById('registerForm').addEventListener('submit', async (e) => {
     e.preventDefault(); // Prevent default form submission
 
-   
-
      // Get form input values
      const username = document.getElementById('username').value;
      const password = document.getElementById('password').value;

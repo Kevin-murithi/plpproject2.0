@@ -32,12 +32,9 @@
           <td data-label="No. of claims:">{{no_of_claims}}</td>
           <td data-label="Claims exceeded:">{{max_exceeded}}</td>
           <td data-label="Actions" class="actionBtns">
-            {{#if (gte no_of_claims quantity)}}
-              <!-- Remove button if no_of_claims >= quantity -->
               <form action="/remove/{{id}}" method="POST">
                 <button type="submit" class="removeBtn">Remove</button>
               </form>
-            {{/if}}
           </td>
         </tr>
       {{/each}}

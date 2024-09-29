@@ -52,7 +52,7 @@
 
       <div class="profileBox userProfileBox">
         <img src="images/userProfile.svg" alt="userProfile">
-        <span>John</span>
+        <span>{{username}}</span>
       </div>
     </div>
 
@@ -62,9 +62,10 @@
           <div class="welcomeUser">
             <div class="welSect">
               <div>
-                <h1>Welcome, John.</h1>
+                <h1>Welcome, {{username}}.</h1>
                 <p>This web application aims to reduce food waste at the community level by connecting local grocery stores, restaurants, and households with surplus food to individuals and organizations that can utilize it.</p>
               </div>
+
 
               <div>
                 <img src="images/community.png" alt="community">
@@ -76,7 +77,8 @@
             <h2>Food Listings</h2>
 
             <div class="listingTable">
-              {{#if bizDetails.length}}
+              {{#if foodListings.length}}
+              <p>Food Listings found: {{foodListings.length}}</p>
                 <table>
                   <caption>Available food listings</caption>
                   <thead>
@@ -87,7 +89,6 @@
                       <th>Pickup Time</th>
                       <th>Pickup Location</th>
                       <th>Special Notes</th>
-                      {{!-- <th>No. of claims</th> --}}
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -95,22 +96,19 @@
                   <tbody>
                     {{#each foodListings}}
                       <tr>
-                        <td data-label="Business:">
-                          {{#each ../bizDetails}}
-                            {{this.name}}
-                          {{/each}}
-                        </td>
-                        <td data-label="Item Name:">{{item_name}}</td>
-                        <td data-label="Expiration Date:">{{formatDate expiration_date}}</td>
-                        <td data-label="Pickup Time:">{{pickup_time}}</td>
-                        <td data-label="Pickup Location:">{{pickup_location}}</td>
-                        <td data-label="Special Notes:">{{special_notes}}</td>
-                        {{!-- <td data-label="No. of claims:">{{no_of_claims}}</td> --}}
+                        <td data-label="Business:">{{this.business_name}}</td>
+                        <td data-label="Item Name:">{{this.item_name}}</td>
+                        <td data-label="Expiration Date:">{{formatDate this.expiration_date}}</td>
+                        <td data-label="Pickup Time:">{{this.pickup_time}}</td>
+                        <td data-label="Pickup Location:">{{this.pickup_location}}</td>
+                        <td data-label="Special Notes:">{{this.special_notes}}</td>
+
+                        <!-- Check claim status and display appropriate action -->
                         <td data-label="Action:" class="actionBtns">
-                          {{#if claimed}}
-                            <a href="/unclaim/{{id}}" class="unclaim">Unclaim</a>
+                          {{#if this.claimed}}
+                            <a href="/unclaim/{{this.id}}" class="unclaim">Unclaim</a>
                           {{else}}
-                            <a href="/claim/{{id}}" class="claim">Claim</a>
+                            <a href="/claim/{{this.id}}" class="claim">Claim</a>
                           {{/if}}
                         </td>
                       </tr>
@@ -122,33 +120,38 @@
               {{/if}}
             </div>
           </div>
+
         </div>
 
         <div class="profileColumn">
           <div class="userDetails">
             <img src="images/userTag.svg" alt="usertag">
 
-            <div class="userCredentials">
-              <div class="userName">John Doe</div>
-              <div class="userEmail">johndoe@gmail.com</div>
-              <div class="userPhone">+254793678324</div>
-            </div>
+              <div class="userCredentials">
+                <div class="userName">{{username}}</div> <!-- Dynamic username -->
+                <div class="userEmail">{{email}}</div>   <!-- Dynamic email -->
+                <div class="userPhone">{{phone_number}}</div> <!-- Dynamic phone number -->
+              </div>
+
           </div>
 
           <div class="userActivity">
               <h3>Activity</h3>
 
-              <div class="activityDetails">
-                <div class="detail">
-                  <span>17</span>
-                  <span>Claims</span>
+                <div class="activityDetails">
+                  <div class="detail">
+                    <span>{{claimsCount}}</span>  <!-- Dynamic claims count -->
+                    <span>Claims</span>
+                  </div>
+
+                  <div class="detail">
+                    <span>{{wasteReduction}}%</span>  <!-- Dynamic waste reduction percentage -->
+                    <span>Waste Reduction</span>
+                  </div>
                 </div>
 
-                <div class="detail">
-                  <span>8%</span>
-                  <span>Waste Reduction</span>
-                </div>
-              </div>
+
+            
             </div>
         </div>
       </div>
@@ -197,14 +200,36 @@
 
       <div class="container notifications hidden">
         <h1>Notifications Container</h1>
+          <div class="notifications-container">
+          <h3>Notifications</h3>
+          <ul id="notificationsList">
+            <!-- Notifications will be rendered here -->
+          </ul>
+          </div>
       </div>
 
       <div class="container support hidden">
         <h1>Support Container</h1>
+        <form id="supportForm">
+          <div>
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" name="subject" required>
+          </div>
+
+          <div>
+            <label for="message">Message</label>
+            <textarea id="message" name="message" required></textarea>
+          </div>
+
+          <button type="submit">Submit</button>
+        </form>
+        
+        <p id="supportMessage"></p>
       </div>
 
       <div class="container leaderboard hidden">
         <h1>Leaderboard Container</h1>
+        <ul id="leaderboardList"></ul>
       </div>
 
       <div class="container profile hidden">
@@ -219,3 +244,88 @@
 </section>
 
 <script src="js/dashboard.js"></script>
+<script>
+  async function fetchNotifications() {
+  try {
+    const response = await fetch('/api/notifications/User');
+    if (response.ok) {
+      const notifications = await response.json();
+      const notificationsList = document.getElementById('notificationsList');
+      
+      // Clear any previous notifications
+      notificationsList.innerHTML = '';
+
+      // Display notifications
+      notifications.forEach(notification => {
+        const li = document.createElement('li');
+        li.textContent = notification.message;
+        if (!notification.is_read) {
+          li.classList.add('unread'); // Add a CSS class for unread notifications
+        }
+        notificationsList.appendChild(li);
+      });
+    } else {
+      console.error('Failed to fetch notifications');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+
+// Fetch notifications when the page loads
+fetchNotifications();
+
+//.................................................................................................................................
+
+async function fetchLeaderboard() {
+    try {
+      const response = await fetch('/api/leaderboard');
+      const leaderboard = await response.json();
+
+      const leaderboardList = document.getElementById('leaderboardList');
+      leaderboardList.innerHTML = '';
+
+      leaderboard.forEach(user => {
+        const li = document.createElement('li');
+        li.textContent = `${user.username} - ${user.claims_count} claims`;
+        leaderboardList.appendChild(li);
+      });
+    } catch (error) {
+      console.error('Error fetching leaderboard:', error);
+    }
+  }
+
+  // Fetch leaderboard when the page loads
+  fetchLeaderboard();
+//.....................................................................................................................................
+
+document.getElementById('supportForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const subject = document.getElementById('subject').value;
+    const message = document.getElementById('message').value;
+
+    try {
+      const response = await fetch('/api/support/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ subject, message })
+      });
+
+      const result = await response.json();
+      document.getElementById('supportMessage').textContent = result.message;
+
+      if (response.ok) {
+        // Clear the form if the request was successful
+        document.getElementById('supportForm').reset();
+      }
+    } catch (error) {
+      document.getElementById('supportMessage').textContent = 'Failed to submit request.';
+      console.error('Error:', error);
+    }
+  });
+
+  //..................................................................................................................................
+</script>

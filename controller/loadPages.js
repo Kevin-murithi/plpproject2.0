@@ -30,9 +30,25 @@ module.exports.bizsignIn = async (_req, res) => {
 
 module.exports.dashboard = async (req, res) => {
   try {
-    const query = 'SELECT * FROM food_listings ORDER BY created_at DESC';
-    
-    // Promisify the database query for food listings
+    const userId = req.session.user_id;
+
+    // Fetch user details (username, email, phone_number)
+    const userQuery = 'SELECT username, email, phone_number FROM users WHERE user_id = ?';
+    const [userResult] = await db.promise().query(userQuery, [userId]);
+
+    if (!userResult || userResult.length === 0) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const { username, email, phone_number } = userResult[0];  // Extract user details
+
+    // Fetch all food listings and associated business details
+    const query = `
+      SELECT f.*, b.name AS business_name 
+      FROM food_listings f 
+      JOIN business b ON f.biz_id = b.biz_id 
+      ORDER BY f.created_at DESC
+    `;
     const foodListings = await new Promise((resolve, reject) => {
       db.query(query, (err, results) => {
         if (err) return reject(err);
@@ -40,42 +56,39 @@ module.exports.dashboard = async (req, res) => {
       });
     });
 
-    if (foodListings.length === 0) {
-      return res.render('dashboard', { pageTitle: 'User dashboard', foodListings: [], bizDetails: [] });
-    }
-
-    const businessId = foodListings[0].biz_id; 
-    const getBizDetails = `SELECT * FROM business WHERE biz_id = ?`;
-
-    // Promisify the business details query
-    const bizDetails = await new Promise((resolve, reject) => {
-      db.query(getBizDetails, [businessId], (err, results) => {
-        if (err) return reject(err);
-        resolve(results);
-      });
-    });
-
-    const userId = req.session.user_id;
-
-    // Check claimed status for each food listing
+    // Check claimed status for each food listing by the logged-in user
     const claimedItems = await Promise.all(foodListings.map(async (item) => {
       const sql = 'SELECT * FROM claimed_items WHERE user_id = ? AND food_id = ?';
       const [result] = await db.promise().query(sql, [userId, item.id]);
-      return { ...item, claimed: result.length > 0 };
+      return { ...item, claimed: result.length > 0 };  // Add claimed status to each listing
     }));
 
-    // Render the dashboard with the data
+    // Count the number of claims made by the logged-in user
+    const claimsQuery = 'SELECT COUNT(*) AS claims_count FROM claimed_items WHERE user_id = ?';
+    const [claimsResult] = await db.promise().query(claimsQuery, [userId]);
+    const claimsCount = claimsResult[0].claims_count || 0;  // Get the number of claims (default to 0 if none)
+
+    // Calculate waste reduction percentage
+    const totalListingsQuery = 'SELECT COUNT(*) AS total_listings FROM food_listings';
+    const [totalListingsResult] = await db.promise().query(totalListingsQuery);
+    const totalListings = totalListingsResult[0].total_listings || 1;  // Default to 1 to avoid division by zero
+
+    const wasteReduction = ((claimsCount / totalListings) * 100).toFixed(2);  // Waste reduction as percentage, rounded to 2 decimal places
+
+    // Render the dashboard with user details, claims count, and waste reduction
     res.render('dashboard', {
-      pageTitle: 'User dashboard',
-      foodListings: claimedItems,
-      bizDetails: bizDetails,
-      userId: userId
+      pageTitle: 'User Dashboard',
+      username,         // Pass username
+      email,            // Pass email
+      phone_number,     // Pass phone number
+      foodListings: claimedItems,  // Pass listings with claim status
+      claimsCount,      // Pass the number of claims
+      wasteReduction    // Pass the waste reduction percentage
     });
   } 
-  
   catch (error) {
-    console.error("Error fetching data:", error.message);
-    res.status(500).json({ message: 'Error fetching data', error: error.message });
+    console.error("Error fetching dashboard data:", error.message);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 };
 
@@ -123,7 +136,6 @@ module.exports.bizdashboard = async (req, res) => {
     res.status(500).json({ message: 'Error fetching data', error: error.message });
   }
 };
-
 
 module.exports.admindashboard = async (_req, res) => {
   res.render('admindashboard', {pageTitle: 'Admin Dashboard'});

@@ -38,4 +38,10 @@ router.get('/api/food/listings/:id', authController.singleListing);
 router.get('/claim/:id', authController.claimFood);
 router.get('/unclaim/:id', authController.unclaimFood);
 
+router.get('/api/notifications/user', authController.getNotificationsUser);
+router.get('/api/notifications/biz', authController.getBizNotifications);
+router.get('/api/leaderboard', authController.getLeaderboard);
+router.post('/api/support/submit', authController.submitSupportRequest);
+
+
 module.exports = router;

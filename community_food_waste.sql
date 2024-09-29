@@ -12,10 +12,13 @@ CREATE TABLE IF NOT EXISTS Users (
     user_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(100),                            
     password VARCHAR(100),                            
-    email VARCHAR(100),                               
+    email VARCHAR(100),                              
     latitude DECIMAL(10, 8),                           
     longitude DECIMAL(11, 8)                         
 );
+
+ALTER TABLE users ADD COLUMN phone_number VARCHAR(15);
+
 
 CREATE TABLE IF NOT EXISTS business (
     biz_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,   
@@ -56,6 +59,16 @@ CREATE TABLE claimed_items (
     FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (food_id) REFERENCES food_listings(id) ON DELETE CASCADE
 );
+
+CREATE TABLE support_requests (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    subject VARCHAR(255),
+    message TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
+
 
 
 [
@@ -123,3 +136,4 @@ CREATE TABLE claimed_items (
         "special_notes": "Certified organic bananas"
     }
 ]
+
