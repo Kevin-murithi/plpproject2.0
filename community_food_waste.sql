@@ -33,6 +33,9 @@ CREATE TABLE IF NOT EXISTS business (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP   
 );
 
+ALTER TABLE business ADD COLUMN phone_number VARCHAR(15);
+
+
 CREATE TABLE food_listings (
     id INT PRIMARY KEY AUTO_INCREMENT,
     biz_id INT,
@@ -68,6 +71,17 @@ CREATE TABLE support_requests (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
+
+CREATE TABLE business_messages (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    biz_id INT,
+    message TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (biz_id) REFERENCES business(biz_id) ON DELETE CASCADE
+);
+
+ALTER TABLE business_messages
+ADD business_name VARCHAR(255);
 
 
 

@@ -28,10 +28,12 @@ router.get('/api/users/profile', authController.profile);
 router.post('/bizregister', authController.bizregister);
 router.post('/api/users/bizlogin', authController.bizlogin);
 router.get('/api/users/bizprofile', authController.bizprofile);
-router.get('/bizlogout', authController.bizlogout);
+// Apply middleware to protect the business dashboard route
+router.get('/bizlogout', authController.isBusinessAuthenticated, authController.bizlogout);
 
 router.post('/api/food/createFood', authController.createFood);
 router.post('/api/food/removeListing', authController.removeListing);
+router.post('/remove/:id', authController.removeListing);
 router.get('/api/food/listings', authController.listings);
 router.get('/api/food/listings/:id', authController.singleListing);
 
@@ -42,6 +44,17 @@ router.get('/api/notifications/user', authController.getNotificationsUser);
 router.get('/api/notifications/biz', authController.getBizNotifications);
 router.get('/api/leaderboard', authController.getLeaderboard);
 router.post('/api/support/submit', authController.submitSupportRequest);
+
+router.get('/api/users/profile', authController.getUserProfile);
+router.post('/api/users/profile', authController.updateUserProfile);
+router.get('/bizprofile', authController.getBusinessProfile); 
+router.post('/bizprofile/update', authController.updateBusinessProfile);
+router.get('/logout', authController.logout); 
+router.post('/support', authController.sendSupportMessage);
+router.get('/support/messages', authController.getSupportMessages);
+
+
+
 
 
 module.exports = router;

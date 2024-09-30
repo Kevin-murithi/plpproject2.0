@@ -822,6 +822,107 @@ p {
   color: #4CAF50;
 }
 
+.container.profile {
+  background-color: #f9f9f9;
+  padding: 20px;
+  margin-top: 20px;
+  width: 100%;
+  max-width: 800px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  text-align: center;
+}
+.container.profile h1 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #333;
+}
+.container.profile form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.container.profile form div {
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 600px;
+}
+.container.profile form div label {
+  display: block;
+  font-size: 16px;
+  margin-bottom: 5px;
+  color: #555;
+  text-align: left;
+}
+.container.profile form div input[type=text],
+.container.profile form div input[type=email],
+.container.profile form div input[type=tel] {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+.container.profile form button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.container.profile form button:hover {
+  background-color: #45A049;
+}
+.container.profile #profileMessage {
+  margin-top: 20px;
+  font-size: 16px;
+  color: #333;
+}
+
+.profileContainer {
+  padding: 2rem;
+  background-color: #f9f9f9;
+  max-width: 600px;
+  margin: 0 auto;
+}
+.profileContainer h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.profileContainer .bizProfileForm {
+  display: flex;
+  flex-direction: column;
+}
+.profileContainer .bizProfileForm .formGroup {
+  margin-bottom: 1rem;
+}
+.profileContainer .bizProfileForm .formGroup label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+.profileContainer .bizProfileForm .formGroup input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.profileContainer .bizProfileForm .saveBtn {
+  padding: 0.75rem;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.profileContainer .bizProfileForm .saveBtn:hover {
+  background-color: #45a049;
+}
+
 .formContainer {
   display: flex;
   flex-direction: row;

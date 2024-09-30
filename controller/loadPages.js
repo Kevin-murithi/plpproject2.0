@@ -93,47 +93,48 @@ module.exports.dashboard = async (req, res) => {
 };
 
 module.exports.bizdashboard = async (req, res) => {
+  // Prevent caching of the dashboard page
+  res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate'); // Ensure no caching
+  res.set('Pragma', 'no-cache'); // HTTP 1.0
+  res.set('Expires', '0'); // Proxies
+  // ... existing code to fetch data and render the dashboard ...
+  
+  const bizId = req.session.biz_id;
+
   try {
-    const bizId = req.session.biz_id;
+    // Fetch business details for rendering
+    const bizQuery = 'SELECT * FROM business WHERE biz_id = ?';
+    const [business] = await db.promise().query(bizQuery, [bizId]);
 
-    // Update max_exceeded for all listings of the business where no_of_claims >= quantity
-    const updateQuery = `
-      UPDATE food_listings 
-      SET max_exceeded = 'yes' 
-      WHERE biz_id = ? AND no_of_claims >= quantity
-    `;
-
-    // Execute the update query to set max_exceeded where necessary
-    await new Promise((resolve, reject) => {
-      db.query(updateQuery, [bizId], (err, results) => {
-        if (err) return reject(err);
-        resolve(results);
-      });
-    });
-
-    // Query the food listings specific to the logged-in business
-    const query = 'SELECT * FROM food_listings WHERE biz_id = ? ORDER BY created_at DESC';
-    
-    const foodListings = await new Promise((resolve, reject) => {
-      db.query(query, [bizId], (err, results) => {
-        if (err) return reject(err);
-        resolve(results);
-      });
-    });
-
-    if (foodListings.length === 0) {
-      return res.render('bizdashboard', { pageTitle: 'Business dashboard', foodListings: [] });
+    if (!business || business.length === 0) {
+      return res.status(404).json({ message: 'Business not found' });
     }
 
-    // Render the dashboard with the filtered food listings
+    // Query to fetch all food listings associated with the business
+    const foodListingsQuery = `
+      SELECT f.*, b.name AS business_name 
+      FROM food_listings f 
+      JOIN business b ON f.biz_id = b.biz_id 
+      WHERE f.biz_id = ?
+      ORDER BY f.created_at DESC`;
+    
+    const foodListings = await db.promise().query(foodListingsQuery, [bizId]);
+
+    // Fetch the count of claims for the current business
+    const claimsCountQuery = 'SELECT COUNT(*) AS claims_count FROM claimed_items ci JOIN food_listings fl ON ci.food_id = fl.id WHERE fl.biz_id = ?';
+    const [claimsCountResult] = await db.promise().query(claimsCountQuery, [bizId]);
+    const claimsCount = claimsCountResult[0].claims_count;
+
+    // Render the dashboard with the listings and business details
     res.render('bizdashboard', {
-      pageTitle: 'Business dashboard',
-      foodListings: foodListings,
+      pageTitle: 'Business Dashboard',
+      business: business[0],  // Pass the first business object
+      foodListings: foodListings[0], // Food listings associated with the business
+      claimsCount: claimsCount // Total claims count for this business
     });
-  } 
-  catch (error) {
-    console.error("Error fetching data:", error.message);
-    res.status(500).json({ message: 'Error fetching data', error: error.message });
+  } catch (error) {
+    console.error("Error fetching business dashboard:", error.message);
+    res.status(500).send('Internal Server Error');
   }
 };
 

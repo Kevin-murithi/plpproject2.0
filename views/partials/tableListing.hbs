@@ -32,9 +32,9 @@
           <td data-label="No. of claims:">{{no_of_claims}}</td>
           <td data-label="Claims exceeded:">{{max_exceeded}}</td>
           <td data-label="Actions" class="actionBtns">
-              <form action="/remove/{{id}}" method="POST">
-                <button type="submit" class="removeBtn">Remove</button>
-              </form>
+            <form action="/remove/{{id}}" method="POST" onsubmit="return confirm('Are you sure you want to remove this listing?');">
+              <button type="submit" class="removeBtn">Remove</button>
+            </form>
           </td>
         </tr>
       {{/each}}

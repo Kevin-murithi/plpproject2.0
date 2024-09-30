@@ -234,10 +234,34 @@
 
       <div class="container profile hidden">
         <h1>Profile Container</h1>
+          <form id="profileForm">
+            <div>
+              <label for="username">Username</label>
+              <input type="text" id="username" name="username" required>
+            </div>
+
+            <div>
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" disabled> <!-- Email cannot be edited -->
+            </div>
+
+            <div>
+              <label for="phone_number">Phone Number</label>
+              <input type="tel" id="phone_number" name="phone_number" required>
+            </div>
+
+            <button type="submit">Update Profile</button>
+          </form>
+
+          <p id="profileMessage"></p>
       </div>
 
       <div class="container logout hidden">
         <h1>Logging out...</h1>
+            <button type="button" data-target="logout">
+              <img src="images/logout.svg" alt="logout">
+              <span>Logout</span>
+            </button>
       </div>
     </div>
   </section>
@@ -328,4 +352,53 @@ document.getElementById('supportForm').addEventListener('submit', async (e) => {
   });
 
   //..................................................................................................................................
+
+  // Fetch user profile on page load
+  async function fetchUserProfile() {
+    try {
+      const response = await fetch('/api/users/profile');
+      const userProfile = await response.json();
+
+      document.getElementById('username').value = userProfile.username;
+      document.getElementById('email').value = userProfile.email;
+      document.getElementById('phone_number').value = userProfile.phone_number;
+    } catch (error) {
+      console.error('Error fetching profile:', error);
+    }
+  }
+
+  // Update user profile on form submission
+  document.getElementById('profileForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const username = document.getElementById('username').value;
+    const phone_number = document.getElementById('phone_number').value;
+
+    try {
+      const response = await fetch('/api/users/profile', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, phone_number })
+      });
+
+      const result = await response.json();
+      document.getElementById('profileMessage').textContent = result.message;
+    } catch (error) {
+      document.getElementById('profileMessage').textContent = 'Failed to update profile.';
+      console.error('Error:', error);
+    }
+  });
+
+  // Fetch the profile when the page loads
+  fetchUserProfile();
+
+//............................................................................................................................................
+
+document.querySelector('[data-target="logout"]').addEventListener('click', function() {
+    if (confirm('Are you sure you want to log out?')) {
+      window.location.href = '/logout';  // Redirect to the logout route
+    }
+  });
 </script>
