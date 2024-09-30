@@ -3,10 +3,10 @@ const bcrypt = require('bcryptjs');
 
 module.exports.register = async (req, res) => {
   try {
-    const { username, email, password, latitude, longitude } = req.body;
+    const { username, email, password, latitude, longitude, phone_number } = req.body;
 
     // Check for missing fields
-    if (!username || !email || !password || latitude === null || longitude === null) {
+    if (!username || !email || !password || !phone_number || latitude === null || longitude === null) {
       return res.status(400).send('All fields and location are required');
     }
 
@@ -14,8 +14,8 @@ module.exports.register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // SQL query to insert the new user
-    const sql = 'INSERT INTO Users (username, email, password, latitude, longitude) VALUES (?, ?, ?, ?, ?)';
-    const values = [username, email, hashedPassword, latitude, longitude];
+    const sql = 'INSERT INTO Users (username, email, phone_number, password, latitude, longitude) VALUES (?, ?, ?, ?, ?, ?)';
+    const values = [username, email, phone_number, hashedPassword, latitude, longitude]; // Added phone_number here
 
     // Insert the user into the database and get the insertId (user_id)
     const [result] = await db.promise().query(sql, values);
@@ -37,6 +37,7 @@ module.exports.register = async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 }
+
 
 module.exports.login = async (req, res) => {
   try {

@@ -17,9 +17,15 @@
     </div>
 
     <div class="formField">
+        <label for="phonenumber">phone number</label>
+        <input type="text" placeholder="phone number" name="phonenumber" id="phonenumber">
+    </div>
+
+    <div class="formField">
         <label for="password">Password</label>
         <input type="password" placeholder="Create Password" name="password" id="password"> 
     </div>
+
 
     <button type="submit" class="userBtn">Register</button>
   </form>
@@ -33,12 +39,14 @@
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
     const email = document.getElementById('email').value;
+    const phone_number = document.getElementById('phonenumber').value;
 
     // Prepare data object, initially without latitude and longitude
     const data = {
       username,
       email,
       password,
+      phone_number,
       latitude: null,
       longitude: null
     };

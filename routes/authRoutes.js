@@ -28,7 +28,6 @@ router.get('/api/users/profile', authController.profile);
 router.post('/bizregister', authController.bizregister);
 router.post('/api/users/bizlogin', authController.bizlogin);
 router.get('/api/users/bizprofile', authController.bizprofile);
-// Apply middleware to protect the business dashboard route
 router.get('/bizlogout', authController.isBusinessAuthenticated, authController.bizlogout);
 
 router.post('/api/food/createFood', authController.createFood);
@@ -52,9 +51,5 @@ router.post('/bizprofile/update', authController.updateBusinessProfile);
 router.get('/logout', authController.logout); 
 router.post('/support', authController.sendSupportMessage);
 router.get('/support/messages', authController.getSupportMessages);
-
-
-
-
 
 module.exports = router;

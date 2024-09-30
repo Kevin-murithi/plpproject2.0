@@ -33,7 +33,7 @@ module.exports.dashboard = async (req, res) => {
     const userId = req.session.user_id;
 
     // Fetch user details (username, email, phone_number)
-    const userQuery = 'SELECT username, email, phone_number FROM users WHERE user_id = ?';
+    const userQuery = 'SELECT username, email, phone_number FROM Users WHERE user_id = ?';
     const [userResult] = await db.promise().query(userQuery, [userId]);
 
     if (!userResult || userResult.length === 0) {
