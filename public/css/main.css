@@ -1228,6 +1228,9 @@ p {
   padding: 1.35rem 1rem;
   color: rgb(16, 69, 16);
 }
+.dashMain .home .profileColumn .userActivity .activityDetails .detail:nth-child(2) > span:nth-child(1) {
+  font-size: 1rem;
+}
 .dashMain .donate {
   width: 100%;
 }
@@ -1293,15 +1296,23 @@ p {
   position: relative;
   font-size: 14px;
 }
-.foodListings .listingTable table tbody tr .actionBtns a {
+.foodListings .listingTable table tbody tr .actionBtns a, .foodListings .listingTable table tbody tr .actionBtns .removeBtn {
   border-radius: 4px;
   padding: 0.55rem;
-  width: 100px;
+  width: 90px;
   color: white;
   font-weight: 600;
   font-size: 12px;
   text-align: center;
   transition: 0.3s ease;
+}
+.foodListings .listingTable table tbody tr .actionBtns .removeBtn {
+  border: none;
+  background-color: #dd0950;
+}
+.foodListings .listingTable table tbody tr .actionBtns .removeBtn:hover {
+  background-color: #f03674;
+  cursor: pointer;
 }
 .foodListings .listingTable table tbody tr .actionBtns .claim {
   background-color: #158baf;

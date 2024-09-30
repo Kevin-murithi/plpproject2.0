@@ -5,7 +5,7 @@ const path = require('path')
 const hbs = require('express-handlebars');
 const Handlebars = require('handlebars');
 const dotenv = require('dotenv');
-const db = require('./models/db');
+const connection = require('./models/db');
 const authRoutes = require("./routes/authRoutes");
 const morgan = require('morgan');
 
@@ -69,7 +69,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(authRoutes);
 app.use(cors());
 app.use(morgan("dev"));
-
 
 const PORT = process.env.PORT || 8000;
 

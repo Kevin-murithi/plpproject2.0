@@ -217,7 +217,7 @@ module.exports.createFood = async (req, res) => {
     await db.promise().query(businessNotificationSql, [biz_id, businessNotificationMessage]);
 
     // Send notifications to all users about the new listing (if required)
-    const userNotificationSql = 'INSERT INTO notifications (user_id, message) SELECT user_id, ? FROM users';
+    const userNotificationSql = 'INSERT INTO notifications (user_id, message) SELECT user_id, ? FROM Users';
     const userNotificationMessage = `New listing "${item_name}" created by ${businessName}. Check it out!`;
     await db.promise().query(userNotificationSql, [userNotificationMessage]);
 

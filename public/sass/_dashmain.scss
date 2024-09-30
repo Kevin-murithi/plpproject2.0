@@ -158,7 +158,6 @@
             display: grid;
             grid-template-columns: 70px 1fr;
             margin-bottom: .65rem;
-            
 
             & > span:nth-child(1){
               font-size: 1.75rem;
@@ -173,6 +172,12 @@
               font-weight: 500;
               padding: 1.35rem 1rem;
               color: rgb(16, 69, 16);
+            }
+          }
+
+          .detail:nth-child(2){
+            & > span:nth-child(1){
+              font-size: 1rem;
             }
           }
         }
@@ -251,15 +256,25 @@
           }
   
           .actionBtns {
-            a {
+            a, .removeBtn {
               border-radius: 4px;
               padding: 0.55rem;
-              width: 100px;
+              width: 90px;
               color: white;
               font-weight: 600;
               font-size: 12px;
               text-align: center;
               transition: 0.3s ease;
+            }
+
+            .removeBtn{
+              border: none;
+              background-color: #dd0950;
+  
+              &:hover {
+                background-color: #f03674;
+                cursor: pointer;
+              }
             }
   
             .claim {

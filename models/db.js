@@ -25,7 +25,7 @@ function initializeDatabase() {
             host: process.env.DB_HOST,
             user: process.env.DB_USER,
             password: process.env.DB_PASSWORD,
-            database: process.env.DB_NAME,  // Use the foodwaste database
+            database: process.env.DB_NAME,
             multipleStatements: true
         });
 
@@ -118,7 +118,8 @@ function initializeDatabase() {
         db.query(queries, (err) => {
             if (err) {
                 console.error("Error creating tables:", err);
-            } else {
+            } 
+            else {
                 console.log("Database and tables created successfully.");
             }
         });
@@ -126,6 +127,6 @@ function initializeDatabase() {
 }
 
 // Call the function to initialize the database when the app starts
-initializeDatabase();
+//initializeDatabase();
 
 module.exports = connection;
